@@ -1,0 +1,28 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+model Estoque {
+    codigo     Int             @id @default(autoincrement())
+    nome       String
+    quantidade Int
+    createdAt  DateTime        @default(now())
+    ordens     Ordem_Servico[]
+}
+
+model Ordem_Servico {
+    os         Int    @id @default(autoincrement())
+    cliente    String
+    telefone   String
+    produto    String
+    quantidade Int
+    valor      Int
+
+    estoqueId Int // Chave estrangeira para a tabela Estoque
+    estoque   Estoque @relation(fields: [estoqueId], references: [codigo]) // Relação com Estoque
+}

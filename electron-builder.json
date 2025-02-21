@@ -1,0 +1,11 @@
+{
+    "appId": "com.example.meuappestoque",
+    "productName": "Meu App Estoque",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  }
+  
