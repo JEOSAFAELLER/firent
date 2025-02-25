@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function EditarProduto() {
   const router = useRouter();
@@ -10,12 +11,12 @@ export default function EditarProduto() {
     quantidade:   0,
   });
 
-  const [produtoAtual, setProdutoAtual] = useState('');
+  const [produtoAtual, setProdutoAtual] = useState([]);
 
  
 
   const [loading, setLoading] = useState(true);
-
+  
   // Função para buscar o produto a ser editado
   const fetchProduto = async () => {
     if (!id) return; // Espera o id ser carregado
@@ -24,18 +25,17 @@ export default function EditarProduto() {
     
     const data = await response.json();
     
-    setProdutoAtual({
-      nome: data.nome,
-      quantidade: data.quantidade,
-    });
-    console.log(produtoAtual)
     
+    
+    
+    setProdutoAtual(data)
     
     setProduto(data);
     setLoading(false);
   };
 
   useEffect(() => {
+
     fetchProduto();
   }, [id]);
 
@@ -68,7 +68,7 @@ export default function EditarProduto() {
     <div style={{ padding: '20px' }}>
       <h1>Editar Produto</h1>
       <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f4f4f4' }}>
-        {console.log(produtoAtual)}
+{console.log(produtoAtual)}
         <p><strong>Nome atual:</strong> {produtoAtual.nome}</p>
         <p><strong>Quantidade atual:</strong> {produtoAtual.quantidade}</p>
       </div>
@@ -111,7 +111,13 @@ export default function EditarProduto() {
         >
           Atualizar Produto
         </button>
+
       </form>
+      <Link href="/estoque">
+        <button style={{ padding: '10px 20px', marginTop: '20px', fontSize: '16px' }}>
+          Cancelar
+        </button>
+      </Link>
     </div>
   );
 }

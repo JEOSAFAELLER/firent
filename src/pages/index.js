@@ -17,6 +17,11 @@ export default function Home() {
           Consultar Estoque
         </button>
       </Link>
+      <Link href="/ordem-servico/list-os">
+        <button style={{ padding: '10px 20px', marginTop: '20px', fontSize: '16px' }}>
+          Ordem de Serviço
+        </button>
+      </Link>
       </div>
     );
   }

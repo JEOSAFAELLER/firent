@@ -8,21 +8,29 @@ datasource db {
 }
 
 model Estoque {
-    codigo     Int             @id @default(autoincrement())
+    codigo     Int            @id @default(autoincrement())
     nome       String
     quantidade Int
-    createdAt  DateTime        @default(now())
-    ordens     Ordem_Servico[]
+    createdAt  DateTime       @default(now())
+    ordens     OrdemProduto[]
 }
 
 model Ordem_Servico {
-    os         Int    @id @default(autoincrement())
-    cliente    String
-    telefone   String
-    produto    String
-    quantidade Int
-    valor      Int
+    os       Int    @id @default(autoincrement())
+    cliente  String
+    telefone String
+    valor    Int
 
-    estoqueId Int // Chave estrangeira para a tabela Estoque
-    estoque   Estoque @relation(fields: [estoqueId], references: [codigo]) // Relação com Estoque
+    produtos OrdemProduto[]
+}
+
+model OrdemProduto {
+    ordemId    Int
+    produtoId  Int
+    quantidade Int
+
+    ordem   Ordem_Servico @relation(fields: [ordemId], references: [os])
+    produto Estoque       @relation(fields: [produtoId], references: [codigo])
+
+    @@id([ordemId, produtoId]) // Chave composta para garantir que cada combinação ordem-produto seja única
 }
