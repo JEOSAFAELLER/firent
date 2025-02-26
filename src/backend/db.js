@@ -2,33 +2,33 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const getEstoque = async () => {
-    return await prisma.estoque.findMany();
+  return await prisma.estoque.findMany();
 };
 
 export const addItem = async (nome, quantidade) => {
-    return await prisma.estoque.create({
-        data: { nome, quantidade },
-    });
+  return await prisma.estoque.create({
+    data: { nome, quantidade },
+  });
 };
 
 export const atualizarItem = async (id, nome, quantidade) => {
-    return await prisma.estoque.update({
-      where: {
-        codigo: parseInt(id),
-      },
-      data: {
-        nome,
-        quantidade: parseInt(quantidade),
-      },
-    });
+  return await prisma.estoque.update({
+    where: {
+      codigo: parseInt(id),
+    },
+    data: {
+      nome,
+      quantidade: parseInt(quantidade),
+    },
+  });
 }
 
 export const listarProdutoPorId = async (id) => {
-return await prisma.estoque.findUnique({
+  return await prisma.estoque.findUnique({
     where: { codigo: parseInt(id) },
   });
 
-  
+
 }
 
 //ordem-serviço
@@ -91,11 +91,22 @@ export const atualizarOrdem = async (id, cliente, telefone, produto, quantidade,
 
 export const listarOrdemPorId = async (id) => {
   return await prisma.ordem_Servico.findUnique({
-      where: { os: parseInt(id) },
-    });
-  
-    
-  }
+    where: { os: parseInt(id) },
+    include: {
+      produtos: {
+        include: {
+          produto: true,
+
+        }
+        
+      }
+    }
+
+
+  });
+
+
+}
 
 
 
