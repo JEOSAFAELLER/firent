@@ -1,36 +1,36 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Estoque {
-    codigo     Int            @id @default(autoincrement())
-    nome       String
-    quantidade Int
-    createdAt  DateTime       @default(now())
-    ordens     OrdemProduto[]
+  codigo     Int            @id @default(autoincrement())
+  nome       String
+  quantidade Int
+  createdAt  DateTime       @default(now())
+  ativo      Boolean        @default(true)
+  ordens     OrdemProduto[]
 }
 
 model Ordem_Servico {
-    os       Int    @id @default(autoincrement())
-    cliente  String
-    telefone String
-    valor    Int
-
-    produtos OrdemProduto[]
+  os       Int            @id @default(autoincrement())
+  cliente  String
+  telefone String
+  valor    Int
+  ativo    Boolean        @default(true)
+  produtos OrdemProduto[]
 }
 
 model OrdemProduto {
-    ordemId    Int
-    produtoId  Int
-    quantidade Int
+  ordemId    Int
+  produtoId  Int
+  quantidade Int
+  produto    Estoque       @relation(fields: [produtoId], references: [codigo])
+  ordem      Ordem_Servico @relation(fields: [ordemId], references: [os])
 
-    ordem   Ordem_Servico @relation(fields: [ordemId], references: [os])
-    produto Estoque       @relation(fields: [produtoId], references: [codigo])
-
-    @@id([ordemId, produtoId]) // Chave composta para garantir que cada combinação ordem-produto seja única
+  @@id([ordemId, produtoId])
 }

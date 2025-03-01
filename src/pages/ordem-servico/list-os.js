@@ -57,6 +57,7 @@ const Ordens = () => {
             <th>Telefone</th>           
             <th>Valor</th>
             <th>Ações</th>
+            <th>Ativo?</th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +74,7 @@ const Ordens = () => {
                     </button>
                   </Link>
                 </td>
+                <td>{ordem.ativo}</td>
             </tr>
           ))}
         </tbody>

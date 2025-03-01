@@ -25,12 +25,28 @@ export default async function handler(req, res) {
 
 
   if (req.method === 'PUT') {
-    // Atualizar produto
-    const { nome, quantidade } = req.body;
-    const produtoAtualizado = await updateOrdem(id, nome, quantidade);
-    return res.status(200).json(produtoAtualizado);
+    try {
+      const { id, cliente, telefone, produtos, valor } = req.body;
+  
+      if (!id || !cliente || !telefone || !Array.isArray(produtos) || produtos.length === 0 || !valor) {
+        return res.status(400).json({ message: 'Todos os campos são obrigatórios e produtos devem ser uma lista válida' });
+      }
+  
+      const ordemAtualizada = await updateOrdem(id, cliente, telefone, produtos, valor);
+  console.log(ordemAtualizada)
+      if (!ordemAtualizada.success) {
+        return res.status(500).json({ message: 'Erro ao atualizar ordem', error: ordemAtualizada.error });
+      }
+  
+      return res.status(200).json({ message: 'Ordem atualizada com sucesso', ordem: ordemAtualizada });
+  
+    } catch (error) {
+      console.error('Erro ao processar atualização:', error);
+      return res.status(500).json({ message: 'Erro interno do servidor', error: error.message });
+    }
   }
-
-  res.status(405).json({ message: 'Método não permitido' });
+  
+  return res.status(405).json({ message: 'Método não permitido' });
+  
 }
 

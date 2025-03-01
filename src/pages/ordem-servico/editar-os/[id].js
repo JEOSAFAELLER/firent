@@ -87,28 +87,49 @@ export default function EditarOrdemServico() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedOrdem = { cliente, telefone, produtos, valor };
-
-
+  
+    if (!cliente || !telefone || !Array.isArray(produtos) || produtos.length === 0 || !valor) {
+      alert('Preencha todos os campos obrigatórios e adicione pelo menos um produto.');
+      return;
+    }
+  
+    const updatedOrdem = {
+      id: Number(id), // Garante que ID seja número
+      cliente: String(cliente).trim(),
+      telefone: String(telefone).trim(),
+      produtos: produtos.map((produto) => ({
+        ...produto,
+        produtoId: Number(produto.produtoId), // Garante número
+        quantidade: Number(produto.quantidade), // Garante número
+      })),
+      valor: Number(valor), // Garante número
+    };
+  
+    console.log('Enviando atualização:', updatedOrdem);
+  
     try {
       const response = await fetch(`/api/ordem-servico/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedOrdem),
-      });
 
+      });
+    
+  
+      const result = await response.json();
+  
       if (response.ok) {
         alert('Ordem atualizada com sucesso!');
         router.push('/ordem-servico/list-os');
       } else {
-        alert('Erro ao atualizar a ordem');
+        alert(`Erro ao atualizar a ordem: ${result.message || 'Erro desconhecido'}`);
       }
     } catch (error) {
-      alert('Erro ao atualizar ordem: ' + error.message);
+      alert(`Erro ao atualizar ordem: ${error.message}`);
+      console.error('Erro na requisição:', error);
     }
   };
+  
 
   if (!ordem) return <p>Carregando...</p>;
 
