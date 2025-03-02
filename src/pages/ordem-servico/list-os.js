@@ -74,7 +74,7 @@ const Ordens = () => {
                     </button>
                   </Link>
                 </td>
-                <td>{ordem.ativo}</td>
+                <td>{ordem.ativo ? "Sim" : "Não"}</td>
             </tr>
           ))}
         </tbody>

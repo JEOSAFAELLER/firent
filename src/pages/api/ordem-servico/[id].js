@@ -26,13 +26,13 @@ export default async function handler(req, res) {
 
   if (req.method === 'PUT') {
     try {
-      const { id, cliente, telefone, produtos, valor } = req.body;
+      const { id, cliente, telefone, produtos, valor, ativo} = req.body;
   
       if (!id || !cliente || !telefone || !Array.isArray(produtos) || produtos.length === 0 || !valor) {
         return res.status(400).json({ message: 'Todos os campos são obrigatórios e produtos devem ser uma lista válida' });
       }
   
-      const ordemAtualizada = await updateOrdem(id, cliente, telefone, produtos, valor);
+      const ordemAtualizada = await updateOrdem(id, cliente, telefone, produtos, valor, ativo);
   console.log(ordemAtualizada)
       if (!ordemAtualizada.success) {
         return res.status(500).json({ message: 'Erro ao atualizar ordem', error: ordemAtualizada.error });

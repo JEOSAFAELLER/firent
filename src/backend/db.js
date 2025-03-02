@@ -78,7 +78,7 @@ export const addOrdem = async (cliente, telefone, produtos, valor) => {
 };
 
 
-export const atualizarOrdem = async (id, cliente, telefone, produtos, valor) => {
+export const atualizarOrdem = async (id, cliente, telefone, produtos, valor, ativo) => {
   try {
     await prisma.$transaction([
       // Atualiza os dados principais da ordem de serviço
@@ -88,6 +88,7 @@ export const atualizarOrdem = async (id, cliente, telefone, produtos, valor) => 
           cliente,
           telefone,
           valor,
+          ativo:ativo,
         },
       }),
 
