@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+
 
 
 export default function EditarOrdemServico() {
@@ -167,7 +167,12 @@ export default function EditarOrdemServico() {
     });
   }
 
+  const handleVoltar = () => {
+    router.back(); // Volta para a página anterior
+  };
+
   if (!ordem) return <p>Carregando...</p>;
+
 
   return (
     <div style={{ padding: '20px' }}>
@@ -259,9 +264,9 @@ export default function EditarOrdemServico() {
         <button type="submit">Salvar Alterações</button>
       </form>
       
-      <Link href="/ordem-servico/list-os">
-        <button style={{ marginTop: '20px' }}>Voltar</button>
-      </Link>
+      <button onClick={handleVoltar} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          ↩️ Voltar
+        </button>
       <button onClick={imprimir} style={{ marginTop: '20px', marginLeft: '10px' }}>
         🖨️ Imprimir
       </button>

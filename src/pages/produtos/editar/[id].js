@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+
 
 export default function EditarProduto() {
   const router = useRouter();
@@ -78,6 +78,10 @@ export default function EditarProduto() {
   if (loading) {
     return <div>Carregando...</div>;
   }
+  const handleVoltar = () => {
+    router.back();
+  }
+
 
   return (
     <div style={{ padding: '20px' }}>
@@ -141,12 +145,9 @@ export default function EditarProduto() {
 
       </form>
 
-     
-      <Link href="/estoque">
-        <button style={{ padding: '10px 20px', marginTop: '20px', fontSize: '16px' }}>
-          Cancelar
+      <button onClick={handleVoltar} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          ↩️ Voltar
         </button>
-      </Link>
     </div>
   );
 }

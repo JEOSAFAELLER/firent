@@ -109,6 +109,9 @@ export default function CriarOrdemServico() {
       alert('Erro ao cadastrar ordem: ' + error.message);
     }
   };
+  const handleVoltar = () => {
+    router.back(); // Volta para a página anterior
+  };
 
   return (
     <div style={{ padding: '20px' }}>
@@ -191,11 +194,9 @@ export default function CriarOrdemServico() {
         </button>
        
       </form>
-      <Link href="/ordem-servico/list-os">
-        <button style={{ padding: '10px 20px', marginTop: '20px', fontSize: '16px' }}>
-          Voltar para a Página Inicial
+      <button onClick={handleVoltar} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          ↩️ Voltar
         </button>
-      </Link>
 
 
       {/* Modal */}

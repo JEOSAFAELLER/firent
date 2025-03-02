@@ -20,7 +20,10 @@ const Ordens = () => {
 
   // Função para redirecionar para a página de criar nova ordem
   const handleCreate = () => {
-    router.push('/ordem-servico/ordem-servico');
+    router.push('/ordem-servico/criar-os/ordem-servico');
+  };
+  const handleVoltar = () => {
+    router.back(); // Volta para a página anterior
   };
 
   return (
@@ -42,11 +45,9 @@ const Ordens = () => {
       >
         Criar Nova Ordem
       </button>
-      <Link href="/">
-        <button style={{ padding: '10px 20px', marginTop: '20px', fontSize: '16px' }}>
-          Voltar para a Página Inicial
+      <button onClick={handleVoltar} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          ↩️ Voltar
         </button>
-      </Link>
 
       {/* Tabela de ordens */}
       <table border="1" cellPadding="7" style={{ width: '100%', borderCollapse: 'collapse' }}>
