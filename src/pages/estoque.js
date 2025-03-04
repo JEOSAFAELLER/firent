@@ -11,14 +11,25 @@ export default function Estoque() {
     const data = await response.json();
     setEstoque(data);
   };
+  console.log(estoque)
+
+ 
 
   useEffect(() => {
     fetchEstoque();
   }, []);
 
+ 
+
+
   return (
     <div style={{ padding: '20px' }}>
       <h1>Estoque Geral</h1>
+      <Link href="/cadastro-produto">
+        <button style={{ padding: '10px 20px', marginTop: '20px', fontSize: '16px' }}>
+          Cadastrar Novo Produto
+        </button>
+      </Link>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
@@ -26,6 +37,7 @@ export default function Estoque() {
             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Nome do Produto</th>
             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Quantidade</th>
             <th style={{ padding: '10px', border: '1px solid #ddd' }}>Ação</th> 
+            <th style={{ padding: '10px', border: '1px solid #ddd' }}>Ativo?</th> 
           </tr>
         </thead>
         <tbody>
@@ -38,10 +50,14 @@ export default function Estoque() {
                 <td style={{ padding: '10px', border: '1px solid #ddd', textAlign: 'center' }}>
                   <Link href={`/editar-produto/${produto.codigo}`}>
                     <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                     editar
                       <i className="fa fa-edit" style={{ fontSize: '20px', color: '#007bff' }}></i>
                     </button>
                   </Link>
+                                
+                  
                 </td>
+                <td style={{ padding: '10px', border: '1px solid #ddd' }}>{produto.ativo ? 'ativo': 'Inativo'}</td>
               </tr>
             ))
           ) : (

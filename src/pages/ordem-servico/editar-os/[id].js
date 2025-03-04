@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+
 export default function EditarOrdemServico() {
   const router = useRouter();
   const { id } = router.query;
@@ -15,6 +16,7 @@ export default function EditarOrdemServico() {
   const [codigoProduto, setCodigoProduto] = useState('');
   const [nomeProduto, setNomeProduto] = useState('');
   const [quantidade, setQuantidade] = useState(1);
+  const [ativo, setAtivo] = useState('')
 
   useEffect(() => {
     if (id) {
@@ -25,6 +27,7 @@ export default function EditarOrdemServico() {
           setCliente(data.cliente);
           setTelefone(data.telefone);
           setValor(data.valor);
+          setAtivo(data.ativo)
 
           // Ajustando a estrutura para armazenar os produtos corretamente
           if (data.produtos) {
@@ -39,11 +42,25 @@ export default function EditarOrdemServico() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (!ativo) {
+      setProdutos((prevProdutos) =>
+        prevProdutos.map((produto) => ({
+          ...produto,
+          quantidade: 0, // Zera a quantidade de todos os produtos
+        }))
+      );
+    }
+  }, [ativo]); // 
+
 
   const fetchEstoque = async () => {
     const response = await fetch('/api/estoque');
     const data = await response.json();
-    setEstoque(data);
+    const produtosAtivos = data.filter((produto) => produto.ativo === true);
+
+    setEstoque(produtosAtivos);
+    
   };
 
   const openEstoqueModal = () => {
@@ -85,58 +102,114 @@ export default function EditarOrdemServico() {
     setQuantidade(1);
   };
 
+  const checkAtivo = async (event) => {
+    const novoStatus = event.target.checked;
+    setAtivo(novoStatus)
+
+    console.log(ativo)
+   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedOrdem = { cliente, telefone, produtos, valor };
-
-
+  
+    if (!cliente || !telefone || !Array.isArray(produtos) || produtos.length === 0 || !valor) {
+      alert('Preencha todos os campos obrigatórios e adicione pelo menos um produto.');
+      return;
+    }
+  
+    const updatedOrdem = {
+      id: Number(id), // Garante que ID seja número
+      cliente: String(cliente).trim(),
+      telefone: String(telefone).trim(),
+      produtos: produtos.map((produto) => ({
+        ...produto,
+        produtoId: Number(produto.produtoId), // Garante número
+        quantidade: Number(produto.quantidade), // Garante número
+      })),
+      valor: Number(valor), // Garante número
+      ativo: Boolean(ativo)
+    };
+  
+    console.log('Enviando atualização:', updatedOrdem);
+  
     try {
       const response = await fetch(`/api/ordem-servico/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedOrdem),
-      });
 
+      });
+    
+  
+      const result = await response.json();
+  
       if (response.ok) {
         alert('Ordem atualizada com sucesso!');
         router.push('/ordem-servico/list-os');
       } else {
-        alert('Erro ao atualizar a ordem');
+        alert(`Erro ao atualizar a ordem: ${result.message || 'Erro desconhecido'}`);
       }
     } catch (error) {
-      alert('Erro ao atualizar ordem: ' + error.message);
+      alert(`Erro ao atualizar ordem: ${error.message}`);
+      console.error('Erro na requisição:', error);
     }
   };
+  const imprimir = () => {
+    router.push({
+      pathname: '/ordem-servico/imprimir-os/imprimir-os',
+      query: {
+        id,
+        cliente,
+        telefone,
+        valor,
+        produtos: JSON.stringify(produtos), // Converte o array de produtos para uma string JSON
+      },
+    });
+  }
 
   if (!ordem) return <p>Carregando...</p>;
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Editar Ordem de Serviço</h1>
+      <h1>Editar Ordem de Serviço: {`${id}`}</h1>
       <form onSubmit={handleSubmit}>
+      
+        <label style={{ marginLeft: '10px' }}>
+          <input
+         
+            type="checkbox"
+            checked={ativo}
+            onChange={checkAtivo}
+          />
+        {ativo ? 'Ativo': 'Ativo'}  
+      
+        
+        </label>
         <label>Cliente:</label>
-        <input type="text" value={cliente} onChange={(e) => setCliente(e.target.value)} required />
+        <input
+        readOnly={!ativo} type="text" value={cliente} onChange={(e) => setCliente(e.target.value)} required />
 
         <label>Telefone:</label>
-        <input type="text" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
+        <input
+        readOnly={!ativo} type="text" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
 
         <label>Valor:</label>
-        <input type="number" value={valor} onChange={(e) => setValor(e.target.value)} required />
+        <input
+        readOnly={!ativo} type="number" value={valor} onChange={(e) => setValor(e.target.value)} required />
 
         <h3>Produtos</h3>
         <div style={formGridStyleProduto}>
           <div style={formRowStyle}>
             <label htmlFor="codigoProduto">Código:</label>
             <input
+            readOnly={!ativo}
               type="number"
               id="codigoProduto"
               value={codigoProduto}
               onChange={(e) => setCodigoProduto(e.target.value)}
               style={{ width: "93px" }}
             />
-            <button type="button" onClick={openEstoqueModal} style={{ width: "100px" }}>
+            <button disabled={!ativo} type="button" onClick={openEstoqueModal} style={{ width: "100px" }}>
               🔍 Pesquisar
             </button>
           </div>
@@ -144,16 +217,18 @@ export default function EditarOrdemServico() {
           <div style={formRowStyle}>
             <label htmlFor="nomeProduto">Nome:</label>
             <input
+            readOnly={!ativo}
               style={{ width: "400px" }}
-              type="text" id="nomeProduto" value={nomeProduto} readOnly />
+              type="text" id="nomeProduto" value={nomeProduto}  />
           </div>
 
           <div style={formRowStyle}>
             <label htmlFor="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
+            <input
+            readOnly={!ativo} type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
           </div>
 
-          <button style={{ margin: "10px" }} type="button" onClick={adicionarProduto}>
+          <button disabled={!ativo} style={{ margin: "10px" }} type="button" onClick={adicionarProduto}>
             ➕ Adicionar Produto
           </button>
         </div>
@@ -173,8 +248,8 @@ export default function EditarOrdemServico() {
                 <td>{produto.nome}</td>
                 <td>{produto.quantidade}</td>
                 <td>
-                  <button onClick={() => console.log('Editar produto', produto)}>✏️</button>
-                  <button onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}>🗑️</button>
+                  <button disabled={!ativo} onClick={() => console.log('Editar produto', produto)}>✏️</button>
+                  <button disabled={!ativo} onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}>🗑️</button>
                 </td>
               </tr>
             ))}
@@ -187,6 +262,9 @@ export default function EditarOrdemServico() {
       <Link href="/ordem-servico/list-os">
         <button style={{ marginTop: '20px' }}>Voltar</button>
       </Link>
+      <button onClick={imprimir} style={{ marginTop: '20px', marginLeft: '10px' }}>
+        🖨️ Imprimir
+      </button>
 
       {estoqueModalOpen && (
         <div id="modalBackdrop" style={modalStyles} onClick={closeEstoqueModal}>
@@ -226,6 +304,7 @@ export default function EditarOrdemServico() {
           </div>
         </div>
       )}
+     
     </div>
   );
 }

@@ -7,15 +7,18 @@ export default function EditarProduto() {
   const { id } = router.query;  // Recebe o ID do produto da URL
 
   const [produto, setProduto] = useState({
+    codigo:"",
     nome:  '',
     quantidade:   0,
+    ativo: ''
   });
 
   const [produtoAtual, setProdutoAtual] = useState([]);
 
  
-
+  
   const [loading, setLoading] = useState(true);
+  const [ativo, setAtivo] = useState(produto.ativo)
   
   // Função para buscar o produto a ser editado
   const fetchProduto = async () => {
@@ -27,7 +30,7 @@ export default function EditarProduto() {
     
     
     
-    
+    console.log(data)
     setProdutoAtual(data)
     
     setProduto(data);
@@ -42,6 +45,8 @@ export default function EditarProduto() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    console.log(produto)
 
     const response = await fetch(`/api/estoque/${id}`, {
       method: 'PUT',
@@ -59,6 +64,16 @@ export default function EditarProduto() {
     }
   };
 
+   const checkAtivo = async (event) => {
+    const novoStatus = event.target.checked;
+    setProduto((prevProduto) =>({
+      ...prevProduto,
+      ativo:novoStatus,
+    }))
+
+    console.log(produto)
+   }
+
   // Carregamento enquanto os dados não são carregados
   if (loading) {
     return <div>Carregando...</div>;
@@ -68,9 +83,21 @@ export default function EditarProduto() {
     <div style={{ padding: '20px' }}>
       <h1>Editar Produto</h1>
       <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f4f4f4' }}>
-{console.log(produtoAtual)}
+
         <p><strong>Nome atual:</strong> {produtoAtual.nome}</p>
         <p><strong>Quantidade atual:</strong> {produtoAtual.quantidade}</p>
+        <p><strong>Status: </strong>{produto.ativo? 'Ativo' : 'Inativo' } </p>
+        <p>
+        <label style={{ marginLeft: '10px' }}>
+          <input
+            type="checkbox"
+            checked={produto.ativo}
+            onChange={checkAtivo}
+          />
+        {produto.ativo ? 'Ativo': 'Ativo'}  
+        
+        </label>
+      </p>
       </div>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '10px' }}>
@@ -113,6 +140,8 @@ export default function EditarProduto() {
         </button>
 
       </form>
+
+     
       <Link href="/estoque">
         <button style={{ padding: '10px 20px', marginTop: '20px', fontSize: '16px' }}>
           Cancelar
