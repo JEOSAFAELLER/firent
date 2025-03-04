@@ -1,5 +1,7 @@
 // pages/imprimir-os.js
 import { useRouter } from 'next/router';
+import styles from '../../global.module.css'
+
 
 const ImprimirOS = () => {
   const router = useRouter();
@@ -18,14 +20,28 @@ const ImprimirOS = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Ordem de Serviço: {`${id}`}</h1>
+    <div className={styles.container}>
+      <div className={styles.titulo}>
+        <h1>Ordem de Serviço: {`${id}`}</h1>
+        </div>
+        <div className={styles.barra_pages}>
+      
+      <button className={styles.buttons} onClick={handleImprimir} >
+      <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+      Imprimir</button>
+      <button className={styles.buttons}  onClick={handleVoltar} >
+      <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+           Voltar
+        </button>
+
+
+      </div>
 
       {/* Dados do Cliente */}
       <div style={{ marginBottom: '20px' }}>
         <p><strong>Cliente:</strong> {cliente}</p>
         <p><strong>Telefone:</strong> {telefone}</p>
-        <p><strong>Valor:</strong> R$ {valor}</p>
+        <p><strong>Valor:</strong> R$ {valor},00</p>
       </div>
 
       {/* Tabela de Produtos */}
@@ -45,15 +61,8 @@ const ImprimirOS = () => {
           ))}
         </tbody>
       </table>
-
-      {/* Botão de Imprimir */}
-      <button onClick={handleImprimir} style={{ padding: '10px 20px', fontSize: '16px' }}>
-        🖨️ Imprimir
-      </button>
-      <button onClick={handleVoltar} style={{ padding: '10px 20px', fontSize: '16px' }}>
-          ↩️ Voltar
-        </button>
-
+      
+     
       {/* Estilos para impressão */}
       <style jsx>{`
         @media print {

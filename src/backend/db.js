@@ -39,7 +39,17 @@ export const listarProdutoPorId = async (id) => {
 //ordem-serviço
 
 export const getOrdem = async () => {
-  return await prisma.ordem_Servico.findMany();
+  return await prisma.ordem_Servico.findMany({
+    include: {
+      produtos: {
+        include: {
+          produto: true,
+
+        }
+        
+      }
+    }
+  });
 };
 
 export const addOrdem = async (cliente, telefone, produtos, valor) => {
