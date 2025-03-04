@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import styles from '../../global.module.css'
 
 
 
@@ -17,6 +18,7 @@ export default function EditarOrdemServico() {
   const [nomeProduto, setNomeProduto] = useState('');
   const [quantidade, setQuantidade] = useState(1);
   const [ativo, setAtivo] = useState('')
+  const [produtoEditando, setProdutoEditando] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -60,7 +62,7 @@ export default function EditarOrdemServico() {
     const produtosAtivos = data.filter((produto) => produto.ativo === true);
 
     setEstoque(produtosAtivos);
-    
+
   };
 
   const openEstoqueModal = () => {
@@ -107,16 +109,16 @@ export default function EditarOrdemServico() {
     setAtivo(novoStatus)
 
     console.log(ativo)
-   }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!cliente || !telefone || !Array.isArray(produtos) || produtos.length === 0 || !valor) {
       alert('Preencha todos os campos obrigatórios e adicione pelo menos um produto.');
       return;
     }
-  
+
     const updatedOrdem = {
       id: Number(id), // Garante que ID seja número
       cliente: String(cliente).trim(),
@@ -129,9 +131,9 @@ export default function EditarOrdemServico() {
       valor: Number(valor), // Garante número
       ativo: Boolean(ativo)
     };
-  
+
     console.log('Enviando atualização:', updatedOrdem);
-  
+
     try {
       const response = await fetch(`/api/ordem-servico/${id}`, {
         method: 'PUT',
@@ -139,13 +141,13 @@ export default function EditarOrdemServico() {
         body: JSON.stringify(updatedOrdem),
 
       });
-    
-  
+
+
       const result = await response.json();
-  
+
       if (response.ok) {
         alert('Ordem atualizada com sucesso!');
-        router.push('/ordem-servico/list-os');
+        router.back();
       } else {
         alert(`Erro ao atualizar a ordem: ${result.message || 'Erro desconhecido'}`);
       }
@@ -170,106 +172,178 @@ export default function EditarOrdemServico() {
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
   };
+  const editarProduto = (index) => {
+    const produto = produtos[index];
+    setCodigoProduto(produto.produtoId);
+    setNomeProduto(produto.nome);
+    setQuantidade(produto.quantidade);
+    setProdutoEditando(index);
+  };
 
   if (!ordem) return <p>Carregando...</p>;
 
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Editar Ordem de Serviço: {`${id}`}</h1>
+    <div className={styles.container}>
+      <div className={styles.titulo}>
+        <h1>Editar Ordem de Serviço: {`${id}`}</h1>
+      </div>
+      <div className={styles.barra_pages}>
+
+        <button className={styles.buttons} onClick={handleSubmit} style={{ color: '#f2d0a4', fontWeight: 'bolder' }} >
+          <i className="fa fa-floppy-disk" style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}></i>
+          Salvar
+        </button>
+        <div>
+          <button className={styles.buttons} onClick={imprimir} >
+            <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            Imprimir
+          </button>
+
+
+          <button className={styles.buttons} onClick={handleVoltar} >
+            <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            Voltar
+          </button>
+
+        </div>
+
+      </div>
+
       <form onSubmit={handleSubmit}>
-      
-        <label style={{ marginLeft: '10px' }}>
+        <div className={styles.formGridStyleCliente}>
+          <div className={styles.formRowStyle} >
+
+            <label>Cliente:</label>
+            <input
+              className={styles.input_os_cliente} readOnly={!ativo} type="text" value={cliente} onChange={(e) => setCliente(e.target.value)} required />
+          </div>
+          <div className={styles.formRowStyle}>
+            <label>Telefone:</label>
+            <input
+              className={styles.input_os_cliente}
+              readOnly={!ativo} type="text" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
+
+
+          </div>
+          <div className={styles.formRowStyle}>
+          <label style={{marginTop:"10px"}} >
           <input
-         
+           className={styles.input_os_cliente}
+
             type="checkbox"
             checked={ativo}
             onChange={checkAtivo}
           />
-        {ativo ? 'Ativo': 'Ativo'}  
-      
-        
+          {ativo ? 'Ativo' : 'Ativar'}
+
+
         </label>
-        <label>Cliente:</label>
-        <input
-        readOnly={!ativo} type="text" value={cliente} onChange={(e) => setCliente(e.target.value)} required />
 
-        <label>Telefone:</label>
-        <input
-        readOnly={!ativo} type="text" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
+          </div>
+         
 
-        <label>Valor:</label>
-        <input
-        readOnly={!ativo} type="number" value={valor} onChange={(e) => setValor(e.target.value)} required />
 
+
+        </div>
+
+      
+
+       
         <h3>Produtos</h3>
-        <div style={formGridStyleProduto}>
-          <div style={formRowStyle}>
-            <label htmlFor="codigoProduto">Código:</label>
+
+        <div className={styles.formGridStyleProduto} >
+          <div className={styles.formRowStyle}>
+            <label style={{marginLeft:"20px"}} htmlFor="codigoProduto">Código:</label>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <button disabled={!ativo} type="button" onClick={openEstoqueModal} style={{  background:"none", border:"none", padding:"0", cursor:"pointer", width:"20px",marginRight:"5px" }}>
+            <i className="fa fa-magnifying-glass" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+            </button>
             <input
-            readOnly={!ativo}
+            className={styles.input_os_cliente }
+              readOnly={!ativo}
               type="number"
               id="codigoProduto"
               value={codigoProduto}
               onChange={(e) => setCodigoProduto(e.target.value)}
               style={{ width: "93px" }}
             />
-            <button disabled={!ativo} type="button" onClick={openEstoqueModal} style={{ width: "100px" }}>
-              🔍 Pesquisar
-            </button>
+
+            </div>
+            
+           
           </div>
 
-          <div style={formRowStyle}>
+          <div className={styles.formRowStyle} >
             <label htmlFor="nomeProduto">Nome:</label>
             <input
-            readOnly={!ativo}
+            className={styles.input_os_cliente }
+              readOnly={!ativo}
               style={{ width: "400px" }}
-              type="text" id="nomeProduto" value={nomeProduto}  />
+              type="text" id="nomeProduto" value={nomeProduto} />
           </div>
 
-          <div style={formRowStyle}>
+
+          <div className={styles.formRowStyle} >
             <label htmlFor="quantidade">Quantidade:</label>
             <input
-            readOnly={!ativo} type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
+            className={styles.input_os_cliente }
+              readOnly={!ativo} type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
           </div>
 
-          <button disabled={!ativo} style={{ margin: "10px" }} type="button" onClick={adicionarProduto}>
-            ➕ Adicionar Produto
+          <button style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px",marginTop:"20px"}} disabled={!ativo}  type="button" onClick={adicionarProduto}>
+          <i className="fa fa-circle-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
           </button>
         </div>
 
 
-        <table border="1" cellPadding="5" style={{ width: '100%' }}>
+        <table border="1" cellPadding="7" style={{ width: '100%', borderCollapse: 'collapse', marginTop:"20px" }}>
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Quantidade</th>
-              <th>Ação</th>
+            <th className={styles.celula} style={{width: '70%'}}>Nome</th>
+              <th className={styles.celula}  style={{width: '10%'}}>Quantidade </th>
+              <th className={styles.celula}  style={{width: '20%'}}>Ação</th>
             </tr>
           </thead>
           <tbody>
             {produtos.map((produto, index) => (
               <tr key={index}>
-                <td>{produto.nome}</td>
-                <td>{produto.quantidade}</td>
-                <td>
-                  <button disabled={!ativo} onClick={() => console.log('Editar produto', produto)}>✏️</button>
-                  <button disabled={!ativo} onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}>🗑️</button>
+                <td className={styles.celula}>{produto.nome}</td>
+                <td className={styles.celula}>{produto.quantidade}</td>
+                <td className={styles.celula}>
+                  <button
+                  type='button'
+                   style={{ background: 'none', border: 'none', cursor: 'pointer' }} 
+                   disabled={!ativo} 
+                   onClick={() => {
+                    editarProduto(index);
+                    setProdutos(produtos.filter((_, i) => i !== index));            
+
+                  }}><i className="fa fa-edit" style={{ fontSize: '20px', color: '#545e75' }}></i></button>
+                  <button  type='button' style={{ background: 'none', border: 'none', cursor: 'pointer' }} disabled={!ativo} onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}><i className="fa fa-trash" style={{ fontSize: '20px', color: '#9e2a2b' }}></i></button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <button type="submit">Salvar Alterações</button>
+        
       </form>
+<div style={ValorStyle}>
+<label  >Valor:</label>
+        <input
+        className={styles.input_os_cliente}
+          readOnly={!ativo} 
+          type="number" 
+          value={valor} 
+          onChange={(e) => setValor(e.target.value)} required />
+
+
+</div>
       
-      <button onClick={handleVoltar} style={{ padding: '10px 20px', fontSize: '16px' }}>
-          ↩️ Voltar
-        </button>
-      <button onClick={imprimir} style={{ marginTop: '20px', marginLeft: '10px' }}>
-        🖨️ Imprimir
-      </button>
+
+     
+
 
       {estoqueModalOpen && (
         <div id="modalBackdrop" style={modalStyles} onClick={closeEstoqueModal}>
@@ -278,8 +352,8 @@ export default function EditarOrdemServico() {
             <button
               style={closeButtonStyles}
               onClick={() => setEstoqueModalOpen(false)}
-            >Fechar</button>
-            <table border="1" cellPadding="5" style={{ width: '100%' }}>
+            ><i className="fa fa-close" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i></button>
+            <table border="1" cellPadding="7" style={{ width: '100%' }}>
               <thead>
                 <tr>
                   <th>Código</th>
@@ -296,11 +370,16 @@ export default function EditarOrdemServico() {
                     <td>{item.quantidade}</td>
                     <td>
                       <button
+                      style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px"}}
                         onClick={() => {
-                          setProdutos([...produtos, { produtoId: item.codigo, nome: item.nome, quantidade: 1 }]);
+                          setCodigoProduto(item.codigo);
+                          setNomeProduto(item.nome);
+                         
                           setEstoqueModalOpen(false);
                         }}
-                      >✅</button>
+                      >
+                        <i className="fa fa-square-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -309,25 +388,11 @@ export default function EditarOrdemServico() {
           </div>
         </div>
       )}
-     
+
     </div>
   );
 }
-const formGridStyle = {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  columnGap: '5px',
-};
-const formGridStyleProduto = {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr 1fr 1fr ',
-  columnGap: '5px'
-};
 
-const formRowStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-};
 
 const modalStyles = {
   position: 'fixed',
@@ -361,4 +426,12 @@ const closeButtonStyles = {
   border: 'none',
   cursor: 'pointer',
   color: '#333',
+};
+const ValorStyle = {
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: '10px',
+  marginBottom: '20px',
+  marginTop:'20px',
+  width:'50px'
 };

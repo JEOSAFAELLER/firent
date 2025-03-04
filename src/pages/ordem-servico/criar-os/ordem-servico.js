@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+import styles from '../../global.module.css'
 
 export default function CriarOrdemServico() {
   const router = useRouter();
@@ -65,10 +65,15 @@ export default function CriarOrdemServico() {
     setQuantidade(1);
   };
 
+
+
+
+
+
   // Enviar Ordem
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+   
     
       const ordem = {
         cliente,
@@ -78,13 +83,14 @@ export default function CriarOrdemServico() {
           nome: produto.nome,
           quantidade: produto.quantidade
         })),
+        
         valor: parseInt(valor, 10), // Garantir que valor seja um número inteiro
       };
    
     
     
 
-    console.log("Enviando dados para a API:",JSON.stringify(ordem));
+ 
 
     try {
       const response = await fetch('/api/ordem-servico', {
@@ -113,71 +119,104 @@ export default function CriarOrdemServico() {
     router.back(); // Volta para a página anterior
   };
 
+ 
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Criar Ordem de Serviço</h1>
+    <div className={styles.container}>
+      <div className={styles.titulo}>
+        <h1>Criar Ordem de Serviço</h1>
+      </div>
+      <div className={styles.barra_pages}>
+        
+          <button className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4',fontWeight:'bolder'}} >
+          <i className="fa fa-floppy-disk" style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}></i>
+            Salvar
+          </button>
+        
+
+        <button className={styles.buttons} onClick={handleVoltar} >
+          <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+          Voltar
+        </button>
+      </div>
+      
+      <div>
+
+      </div>
 
       <form onSubmit={handleSubmit}>
         {/* Cliente e Telefone */}
-        <div style={formGridStyle}>
-          <div style={formRowStyle}>
-            <label htmlFor="cliente">Cliente:</label>
-            <input type="text" id="cliente" value={cliente} onChange={(e) => setCliente(e.target.value)} required />
+        <div className={styles.formGridStyleCliente}>
+          <div className={styles.formRowStyle} >
+            <label htmlFor="cliente">Cliente:{!cliente && <span style={{ color: 'red', marginLeft: '10px' }}>*Campo obrigatório*</span>}</label>
+            
+            <input className={styles.input_os_cliente }type="text" id="cliente" value={cliente} onChange={(e) => setCliente(e.target.value)} required />
           </div>
-          <div style={formRowStyle}>
-            <label htmlFor="telefone">Telefone:</label>
-            <input type="text" id="telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
+
+          <div className={styles.formRowStyle} >
+            <label htmlFor="telefone">Telefone: {!telefone && <span style={{ color: 'red', marginLeft: '10px' }}>*Campo obrigatório*</span>}</label>
+            <input className={styles.input_os_cliente } type="text" id="telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
           </div>
         </div>
 
         {/* Produto */}
-        <div style={formGridStyleProduto}>
-          <div style={formRowStyle}>
-            <label htmlFor="codigoProduto">Código:</label>
+        <h3>Produtos</h3>
+        <div className={styles.formGridStyleProduto} >
+          <div className={styles.formRowStyle} >
+            <label style={{marginLeft:"20px"}} htmlFor="codigoProduto">Código:</label>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <button type="button" onClick={openEstoqueModal} style={{  background:"none", border:"none", padding:"0", cursor:"pointer", width:"20px",marginRight:"5px" }}>
+            <i className="fa fa-magnifying-glass" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+               
+            </button>
             <input
+            className={styles.input_os_cliente }
               type="number"
               id="codigoProduto"
               value={codigoProduto}
               onChange={(e) => setCodigoProduto(e.target.value)}
              style={{ width: "93px"}}
             />
-            <button type="button" onClick={openEstoqueModal} style={{  width:"100px" }}>
-              🔍 Pesquisar
-            </button>
+            
+
+            </div>
+            
           </div>
 
-          <div style={formRowStyle}>
+          <div className={styles.formRowStyle} >
             <label htmlFor="nomeProduto">Nome:</label>
             <input 
+            className={styles.input_os_cliente }
             style={{width: "400px"}}
             type="text" id="nomeProduto" value={nomeProduto} readOnly />
           </div>
 
-          <div style={formRowStyle}>
+          <div className={styles.formRowStyle} >
             <label htmlFor="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
+            <input  className={styles.input_os_cliente } type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
           </div>
 
-          <button style={{margin:"10px"}} type="button" onClick={adicionarProduto}>
-            ➕ Adicionar Produto
+          <button  type="button" onClick={adicionarProduto} style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px",marginTop:"20px"}}>
+          <i className="fa fa-circle-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+            
           </button>
         </div>
 
         {/* Lista de Produtos Adicionados */}
-        <table border="1" cellPadding="7" style={{ width: '100%', marginTop: '20px' }}>
+        <table border="1" cellPadding="7" style={{ width: '100%', borderCollapse: 'collapse', marginTop:"20px" }}>
           <thead>
             <tr>
-              <th style={{width: '10%'}}>Código</th>
-              <th style={{width: '70%'}}>Nome </th>
-              <th style={{width: '20%'}}>Quantidade</th>
+              <th className={styles.celula} style={{width: '10%'}}>Código</th>
+              <th className={styles.celula}  style={{width: '70%'}}>Nome </th>
+              <th className={styles.celula}  style={{width: '20%'}}>Quantidade</th>
             </tr>
           </thead>
           <tbody>
             {produtos.map((produto, index) => (
               <tr key={index}>
-                <td>{produto.produtoId}</td>
-                <td>{produto.nome}</td>
-                <td>{produto.quantidade}</td>
+                <td className={styles.celula} >{produto.produtoId}</td>
+                <td className={styles.celula} >{produto.nome}</td>
+                <td className={styles.celula} >{produto.quantidade}</td>
               </tr>
             ))}
           </tbody>
@@ -185,18 +224,22 @@ export default function CriarOrdemServico() {
 
         {/* Valor */}
         <div style={ValorStyle}>
-          <label htmlFor="valor">Valor:</label>
-          <input type="number" id="valor" value={valor} onChange={(e) => setValor(e.target.value)} required />
+          <label htmlFor="valor">Valor: {!valor && <span style={{ color: 'red', marginLeft: '10px' }}>*Campo obrigatório*</span>}</label>
+          <input className={styles.input_os_cliente } 
+          placeholder="R$ 0,00"
+          type="text" 
+          id="valor" 
+          value={valor}
+          onChange={(e) => setValor(e.target.value)}
+          
+         
+          required />
         </div>
 
-        <button type="submit" style={botaoStyle}>
-          Criar Ordem de Serviço
-        </button>
+    
        
       </form>
-      <button onClick={handleVoltar} style={{ padding: '10px 20px', fontSize: '16px' }}>
-          ↩️ Voltar
-        </button>
+    
 
 
       {/* Modal */}
@@ -206,8 +249,10 @@ export default function CriarOrdemServico() {
             <h2>Estoque</h2>
             <button
             style={closeButtonStyles}
-            onClick={() => setEstoqueModalOpen(false)}>Fechar</button>
-            <table border="1" cellPadding="5" style={{ width: '100%' }}>
+            onClick={() => setEstoqueModalOpen(false)}>
+               <i className="fa fa-close" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+              </button>
+            <table border="2" cellPadding="7" style={{ width: '100%' }}>
               <thead>
                 <tr>
                   <th>Código</th>
@@ -224,13 +269,15 @@ export default function CriarOrdemServico() {
                     <td>{item.quantidade}</td>
                     <td>
                       <button
+                      style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px"}}
                         onClick={() => {
                           setCodigoProduto(item.codigo);
                           setNomeProduto(item.nome);
                           setEstoqueModalOpen(false);
                         }}
                       >
-                        ✅
+                        <i className="fa fa-square-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+                        
                       </button>
                     </td>
                   </tr>
@@ -245,14 +292,7 @@ export default function CriarOrdemServico() {
 }
 
 // Estilos corrigidos
-const formGridStyle = { display: 'grid', 
-  gridTemplateColumns: '1fr 1fr', 
-  columnGap: '5px',
- };
-const formGridStyleProduto = { display: 'grid',
-   gridTemplateColumns: '1fr 1fr 1fr 1fr ', 
-   columnGap: '5px'
-   };
+
 const modalStyles = {
   position: 'fixed', // Fixa na tela
   top: 0,
@@ -275,7 +315,7 @@ const modalContentStyles = {
   position: 'relative',
   animation: 'fadeIn 0.3s ease-in-out',
 };
-const botaoStyle = { padding: '10px', backgroundColor: 'green', color: 'white' };
+
 
 const closeButtonStyles = {
   position: 'absolute',
@@ -297,7 +337,3 @@ const ValorStyle = {
   width:'50px'
 };
 
-const formRowStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-};

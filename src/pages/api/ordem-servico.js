@@ -1,5 +1,5 @@
 
-import { listarOrdem, adicionarOrdem, updateOrdem,editarOrdemPorId } from '../../backend/ordemService';
+import { listarOrdem, adicionarOrdem } from '../../backend/ordemService';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {

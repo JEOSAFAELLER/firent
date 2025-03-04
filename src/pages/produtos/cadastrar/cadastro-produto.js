@@ -52,7 +52,7 @@ export default function CadastroProduto() {
       </div>
       <div className={styles.barra_pages}>
         
-          <button className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4'}} >
+          <button className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4',fontWeight:'bolder'}} >
           <i className="fa fa-floppy-disk" style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}></i>
             Salvar
           </button>

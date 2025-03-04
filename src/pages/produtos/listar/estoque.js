@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
+import { webContents } from 'electron';
 
 export default function Estoque() {
   const router = useRouter();
@@ -39,20 +40,20 @@ export default function Estoque() {
 
         <Link href="/produtos/cadastrar/cadastro-produto">
           <button className={styles.buttons} >
-          <i className="fa fa-plus" style={{ fontSize: '20px', color: '#f7f7ff', marginRight:"5px" }}></i>
+            <i className="fa fa-plus" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
             Cadastrar Novo Produto
           </button>
         </Link>
         <div>
           <button className={styles.buttons} onClick={handleImprimir} >
-          <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight:"5px" }}></i>
-           Imprimir
+            <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            Imprimir
           </button>
 
 
           <button className={styles.buttons} onClick={handleVoltar} style={{ justifySelf: 'flex-end' }} >
-          <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight:"5px" }}></i>
-             Voltar
+            <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            Voltar
           </button>
 
         </div>
@@ -71,28 +72,29 @@ export default function Estoque() {
             <th className={styles.celula}>Código</th>
             <th className={styles.celula}>Nome do Produto</th>
             <th className={styles.celula}>Quantidade</th>
-            <th className={styles.celula}>Ação</th>
-            <th className={styles.celula}>Ativo?</th>
+            <th className={styles.celula}>Status</th>
+            <th id='editar_th' className={styles.celula}>Editar</th>
           </tr>
         </thead>
         <tbody>
           {estoque.length > 0 ? (
             estoque.map((produto) => (
-              <tr key={produto.codigo}>
-                <td className={styles.celula } >{produto.codigo}</td>
-                <td className={styles.celula } >{produto.nome}</td >
-                <td className={styles.celula } >{produto.quantidade}</td >
-                <td className={styles.celula } >
+              <tr className={!produto.ativo ? styles.linhaInativa : ''} key={produto.codigo}>
+                <td className={styles.celula} >{produto.codigo}</td>
+                <td className={styles.celula} >{produto.nome}</td >
+                <td className={styles.celula} >{produto.quantidade}</td >
+
+                <td className={styles.celula} >{produto.ativo ? 'ativo' : 'Inativo'}</td>
+                <td id='editar_td' className={styles.celula} >
                   <Link href={`/produtos/editar/${produto.codigo}`}>
                     <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                      
+
                       <i className="fa fa-edit" style={{ fontSize: '20px', color: '#545e75' }}></i>
                     </button>
                   </Link>
 
 
                 </td>
-                <td className={styles.celula } >{produto.ativo ? 'ativo' : 'Inativo'}</td>
               </tr>
             ))
           ) : (
@@ -108,9 +110,12 @@ export default function Estoque() {
       <style jsx>{`
         @media print {
           /* Oculta o botão de imprimir na impressão */
-          button {
+          button,
+          #editar_th,
+          #editar_td{                    
             display: none;
-          }
+          }           
+   
 
           /* Ajusta o layout para impressão */
           table {
@@ -120,7 +125,7 @@ export default function Estoque() {
           th, td {
             border: 1px solid #000;
             padding: 8px;
-            text-align: left;
+            text-align: center;
           }
         }
       `}</style>

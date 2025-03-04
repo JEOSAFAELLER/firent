@@ -68,3 +68,43 @@
 .formProduto{
     width: 100%;
 }
+
+.linhaInativa{
+    background-color: #545e7538;
+}
+
+/* cadastro ordem-serviço*/
+.input_os_cliente{
+    border: 1px solid #545e75;
+    font-size: 16px;
+    padding: 5px; 
+    border-radius: 2px;
+
+}
+.formGridStyleCliente{
+    display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  column-gap: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f4f4f4;
+}
+
+.formGridStyleProduto{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr ; 
+    column-gap: 5px;
+    border-bottom: 2px solid #545e75;
+    border-top: 2px solid #545e75;
+    padding: 10px;
+    background-color: #545e752d;
+
+
+}
+.formRowStyle  {
+    display: flex;
+    flex-direction: column;
+    
+  };
+  
+ 
