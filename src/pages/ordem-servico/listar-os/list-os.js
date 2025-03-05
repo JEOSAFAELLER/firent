@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../../global.module.css'
+import BotaoGerarPdf from '../../componentes/botaoGerarPdf';
 const Ordens = () => {
   const [ordens, setOrdens] = useState([]);
   const router = useRouter();
@@ -27,9 +28,7 @@ const Ordens = () => {
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
   };
-  const handleImprimir = () => {
-    window.print();
-  };
+ 
   const imprimir = (ordem) => {
     
     router.push({
@@ -64,10 +63,9 @@ const Ordens = () => {
         Criar Nova Ordem
       </button>
       <div>
-      <button className={styles.buttons} onClick={handleImprimir} >
-            <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
-            Imprimir
-          </button>
+        <BotaoGerarPdf  ordens={ordens}/>
+     
+     
       <button 
       className={styles.buttons}      
       onClick={handleVoltar} >
@@ -119,6 +117,7 @@ const Ordens = () => {
       <style jsx>{`
         @media print {
           /* Oculta o botão de imprimir na impressão */
+          .buttons,
           button,
           i,
           #editar_th,

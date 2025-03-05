@@ -8,7 +8,7 @@ const BotaoGerarPdf = ({ ordem }) => {
   const gerarPdf = async () => {
     setLoading(true);
     try {
-        const nomeArquivo = `ordem_${String(ordem?.cliente || "sem-id")}`; 
+        const nomeArquivo = `${String(ordem?.cliente || "Relatório")}`; 
         console.log(nomeArquivo)
       const resultado = await window.electron.gerarPdf(nomeArquivo);
 
@@ -26,9 +26,10 @@ const BotaoGerarPdf = ({ ordem }) => {
 
   return (
     <button className={styles.buttons} onClick={gerarPdf} disabled={loading}>
-     <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i> 
-    Exportar 
+      <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+      Exportar
     </button>
+    
   );
 };
 

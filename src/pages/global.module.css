@@ -106,5 +106,11 @@
     flex-direction: column;
     
   };
+
+  @media print{
+    .buttons{
+        display: none !important;
+    }
+  }
   
  

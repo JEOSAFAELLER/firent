@@ -13,7 +13,10 @@ export default function CriarOrdemServico() {
   const [estoque, setEstoque] = useState([]);
   const [estoqueModalOpen, setEstoqueModalOpen] = useState(false);
   const [produtos, setProdutos] = useState([]);
+  const [produtoEditando, setProdutoEditando] = useState(null);
 
+  const reload= window.location.reload();
+  reload;
   // Buscar estoque
   const fetchEstoque = async () => {
     const response = await fetch('/api/estoque');
@@ -88,7 +91,7 @@ export default function CriarOrdemServico() {
       };
    
     
-    
+     
 
  
 
@@ -118,7 +121,13 @@ export default function CriarOrdemServico() {
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
   };
-
+  const editarProduto = (index) => {
+    const produto = produtos[index];
+    setCodigoProduto(produto.produtoId);
+    setNomeProduto(produto.nome);
+    setQuantidade(produto.quantidade);
+    setProdutoEditando(index);
+  };
  
 
   return (
@@ -207,8 +216,9 @@ export default function CriarOrdemServico() {
           <thead>
             <tr>
               <th className={styles.celula} style={{width: '10%'}}>Código</th>
-              <th className={styles.celula}  style={{width: '70%'}}>Nome </th>
+              <th className={styles.celula}  style={{width: '50%'}}>Nome </th>
               <th className={styles.celula}  style={{width: '20%'}}>Quantidade</th>
+              <th className={styles.celula}  style={{width: '20%'}}>Ação</th>
             </tr>
           </thead>
           <tbody>
@@ -217,6 +227,18 @@ export default function CriarOrdemServico() {
                 <td className={styles.celula} >{produto.produtoId}</td>
                 <td className={styles.celula} >{produto.nome}</td>
                 <td className={styles.celula} >{produto.quantidade}</td>
+                <td className={styles.celula}>
+                  <button
+                  type='button'
+                   style={{ background: 'none', border: 'none', cursor: 'pointer' }} 
+                  
+                   onClick={() => {
+                    editarProduto(index);
+                    setProdutos(produtos.filter((_, i) => i !== index));            
+
+                  }}><i className="fa fa-edit" style={{ fontSize: '20px', color: '#545e75' }}></i></button>
+                  <button  type='button' style={{ background: 'none', border: 'none', cursor: 'pointer' }}  onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}><i className="fa fa-trash" style={{ fontSize: '20px', color: '#9e2a2b' }}></i></button>
+                </td>
               </tr>
             ))}
           </tbody>

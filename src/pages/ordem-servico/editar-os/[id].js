@@ -147,7 +147,7 @@ export default function EditarOrdemServico() {
 
       if (response.ok) {
         alert('Ordem atualizada com sucesso!');
-        router.back();
+        router.push('/ordem-servico/listar-os/list-os');
       } else {
         alert(`Erro ao atualizar a ordem: ${result.message || 'Erro desconhecido'}`);
       }
@@ -216,13 +216,18 @@ export default function EditarOrdemServico() {
 
             <label>Cliente:</label>
             <input
-              className={styles.input_os_cliente} readOnly={!ativo} type="text" value={cliente} onChange={(e) => setCliente(e.target.value)} required />
+              className={styles.input_os_cliente} 
+               type="text" 
+              value={cliente} 
+              onChange={(e) => setCliente(e.target.value)} required />
           </div>
           <div className={styles.formRowStyle}>
             <label>Telefone:</label>
             <input
               className={styles.input_os_cliente}
-              readOnly={!ativo} type="text" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
+               type="text" 
+              value={telefone} 
+              onChange={(e) => setTelefone(e.target.value)} required />
 
 
           </div>
@@ -256,7 +261,12 @@ export default function EditarOrdemServico() {
           <div className={styles.formRowStyle}>
             <label style={{marginLeft:"20px"}} htmlFor="codigoProduto">Código:</label>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-            <button disabled={!ativo} type="button" onClick={openEstoqueModal} style={{  background:"none", border:"none", padding:"0", cursor:"pointer", width:"20px",marginRight:"5px" }}>
+            <button 
+            disabled={!ativo} 
+            type="button"
+             onClick={openEstoqueModal} 
+
+             style={{  background:"none", border:"none", padding:"0", cursor:"pointer", width:"20px",marginRight:"5px" }}>
             <i className="fa fa-magnifying-glass" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
             </button>
             <input
@@ -278,9 +288,12 @@ export default function EditarOrdemServico() {
             <label htmlFor="nomeProduto">Nome:</label>
             <input
             className={styles.input_os_cliente }
-              readOnly={!ativo}
+              readOnly={true}
               style={{ width: "400px" }}
-              type="text" id="nomeProduto" value={nomeProduto} />
+              type="text" 
+              id="nomeProduto"
+               value={nomeProduto} 
+              />
           </div>
 
 
@@ -288,7 +301,10 @@ export default function EditarOrdemServico() {
             <label htmlFor="quantidade">Quantidade:</label>
             <input
             className={styles.input_os_cliente }
-              readOnly={!ativo} type="number" id="quantidade" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
+              type="number"
+               id="quantidade" 
+               value={quantidade} 
+               onChange={(e) => setQuantidade(e.target.value)} />
           </div>
 
           <button style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px",marginTop:"20px"}} disabled={!ativo}  type="button" onClick={adicionarProduto}>
@@ -333,7 +349,7 @@ export default function EditarOrdemServico() {
 <label  >Valor:</label>
         <input
         className={styles.input_os_cliente}
-          readOnly={!ativo} 
+          
           type="number" 
           value={valor} 
           onChange={(e) => setValor(e.target.value)} required />
