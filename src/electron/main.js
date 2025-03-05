@@ -1,5 +1,6 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const path = require('path');
+const fs = require("fs");
 
 
 let splashWindow;
@@ -14,7 +15,10 @@ function createSplashScreen() {
       alwaysOnTop: true, // Mantém a splash screen no topo
       resizable: false, // Impede redimensionamento
       webPreferences: {
-        nodeIntegration: true,
+       
+        nodeIntegration: false,
+        contextIsolation: false,
+        enableRemoteModule: false,
       },
     });
     // Carrega a splash screen
@@ -35,17 +39,44 @@ app.whenReady().then(() => {
         width: 800,
         height: 600,
         webPreferences: {
-         
-            nodeIntegration: true,
+          preload: path.join(__dirname, 'preload.js'),
+            nodeIntegration: false,
+            contextIsolation: true,
         },
     });
 
     mainWindow.loadURL('http://localhost:3000'); // Next.js rodando
 Menu.setApplicationMenu(null);
 
+mainWindow.webContents.openDevTools();
+
+
+
+
     app.on('window-all-closed', () => {
         if (process.platform !== 'darwin') app.quit();
     });
+
+    
+    ipcMain.handle("gerar-pdf", async (event, nomeArquivo) => {
+      console.log("Nome do arquivo recebido pelo IPC:", nomeArquivo);
+      const pdfPath = path.join(app.getPath("documents"), `${nomeArquivo}.pdf`);
+      const win = BrowserWindow.getFocusedWindow();
+  
+      if (!win) return { error: "Nenhuma janela ativa encontrada!" };
+  
+      try {
+        const data = await win.webContents.printToPDF({});
+        fs.writeFileSync(pdfPath, data);
+        return { path: pdfPath };
+      } catch (error) {
+        return { error: error.message };
+      }
+    });
+    
+
+
 });
+
 
 

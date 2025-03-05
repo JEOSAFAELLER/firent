@@ -1,13 +1,21 @@
 // src/pages/estoque.js
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
-import { webContents } from 'electron';
+import dynamic from 'next/dynamic';
+
+const Imprimir = dynamic(
+  () => import('../../imprimir/imprimir.js'),
+  { ssr: false } // Desativa a renderização no lado do servidor
+);
+
 
 export default function Estoque() {
   const router = useRouter();
   const [estoque, setEstoque] = useState([]);
+
 
   // Função para buscar o estoque
   const fetchEstoque = async () => {
@@ -17,15 +25,16 @@ export default function Estoque() {
   };
   console.log(estoque)
 
-
+  
 
   useEffect(() => {
+
     fetchEstoque();
   }, []);
 
-  const handleImprimir = () => {
-    window.print();
-  };
+  // const handleImprimir = () => {
+   
+  // };
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
   };
@@ -45,10 +54,11 @@ export default function Estoque() {
           </button>
         </Link>
         <div>
-          <button className={styles.buttons} onClick={handleImprimir} >
+          <Imprimir/>
+          {/* <button className={styles.buttons} onClick={handleImprimir} >
             <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
             Imprimir
-          </button>
+          </button> */}
 
 
           <button className={styles.buttons} onClick={handleVoltar} style={{ justifySelf: 'flex-end' }} >

@@ -1,6 +1,7 @@
 // pages/imprimir-os.js
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
+import BotaoGerarPdf from '../../componentes/botaoGerarPdf';
 
 
 const ImprimirOS = () => {
@@ -10,10 +11,8 @@ const ImprimirOS = () => {
   // Converte a string de produtos de volta para um array
   const produtosArray = produtos ? JSON.parse(produtos) : [];
 
-  // Função para imprimir
-  const handleImprimir = () => {
-    window.print();
-  };
+  
+  
 
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
@@ -25,10 +24,9 @@ const ImprimirOS = () => {
         <h1>Ordem de Serviço: {`${id}`}</h1>
         </div>
         <div className={styles.barra_pages}>
+
+       <BotaoGerarPdf ordem={{ id, cliente, telefone, valor, produtos: produtosArray }} />
       
-      <button className={styles.buttons} onClick={handleImprimir} >
-      <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
-      Imprimir</button>
       <button className={styles.buttons}  onClick={handleVoltar} >
       <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
            Voltar
