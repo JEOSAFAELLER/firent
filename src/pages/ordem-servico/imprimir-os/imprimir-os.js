@@ -23,7 +23,7 @@ const ImprimirOS = () => {
       <div className={styles.titulo}>
         <h1>Ordem de Serviço: {`${id}`}</h1>
         </div>
-        <div className={styles.barra_pages}>
+        <div  className={styles.barra_pages}>
         <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf({ id, cliente, telefone, valor, produtos: produtosArray })}>
        <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
        Exportar
@@ -34,6 +34,7 @@ const ImprimirOS = () => {
       <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
            Voltar
         </button>
+
 
 
       </div>
@@ -62,18 +63,17 @@ const ImprimirOS = () => {
           ))}
         </tbody>
       </table>
-      
-     
-      {/* Estilos para impressão */}
       <style jsx>{`
         @media print {
           /* Oculta o botão de imprimir na impressão */
-          .barra_pages,
           .buttons,
           button,
-           {
-            display: none;
-          }
+          i,
+          #editar_th,
+          #editar_td{                    
+            display: none;!important;
+          }           
+   
 
           /* Ajusta o layout para impressão */
           table {
@@ -83,10 +83,14 @@ const ImprimirOS = () => {
           th, td {
             border: 1px solid #000;
             padding: 8px;
-            text-align: left;
+            text-align: center;
           }
         }
       `}</style>
+         
+      
+     
+      
     </div>
   );
 };

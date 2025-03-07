@@ -107,10 +107,6 @@
     
   };
 
-  @media print{
-    .buttons{
-        display: none !important;
-    }
-  }
+ 
   
  

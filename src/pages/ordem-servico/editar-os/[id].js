@@ -181,7 +181,9 @@ export default function EditarOrdemServico() {
   };
 
   if (!ordem) return <p>Carregando...</p>;
-
+  const handleRefresh = () => {
+    router.reload();  // Vai forçar um refresh na página
+  };
 
   return (
     <div className={styles.container}>
@@ -195,10 +197,16 @@ export default function EditarOrdemServico() {
           Salvar
         </button>
         <div>
+
           <button className={styles.buttons} onClick={imprimir} >
             <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
             Imprimir
           </button>
+
+          <button className={styles.buttons} onClick={handleRefresh} >
+        <i className="fa fa-arrows-rotate" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+          Recarregar
+        </button>
 
 
           <button className={styles.buttons} onClick={handleVoltar} >
@@ -275,7 +283,14 @@ export default function EditarOrdemServico() {
               type="number"
               id="codigoProduto"
               value={codigoProduto}
-              onChange={(e) => setCodigoProduto(e.target.value)}
+              //onChange={(e) => setCodigoProduto(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "" || value > 0) {
+                  setCodigoProduto(value);  // Só permite números maiores que 0
+                }
+              }}
+              min="1"              
               style={{ width: "93px" }}
             />
 

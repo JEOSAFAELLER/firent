@@ -83,6 +83,10 @@ export default function EditarProduto() {
     router.back();
   }
 
+  const handleRefresh = () => {
+    router.reload();  // Vai forçar um refresh na página
+  };
+
 
   return (
     <div className={styles.container}>
@@ -94,6 +98,10 @@ export default function EditarProduto() {
       <button  className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4', fontWeight:'bolder'}}>
       <i className="fa fa-floppy-disk" style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}></i>
           Alterar Produto
+        </button>
+        <button className={styles.buttons} onClick={handleRefresh} >
+        <i className="fa fa-arrows-rotate" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+          Recarregar
         </button>
         <button className={styles.buttons} onClick={handleVoltar} >
         <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
