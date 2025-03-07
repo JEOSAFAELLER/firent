@@ -1,7 +1,7 @@
 // pages/imprimir-os.js
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
-import BotaoGerarPdf from '../../componentes/botaoGerarPdf';
+import gerarPdf from '../../componentes/gerarPdf';
 
 
 const ImprimirOS = () => {
@@ -24,8 +24,11 @@ const ImprimirOS = () => {
         <h1>Ordem de Serviço: {`${id}`}</h1>
         </div>
         <div className={styles.barra_pages}>
-
-       <BotaoGerarPdf ordem={{ id, cliente, telefone, valor, produtos: produtosArray }} />
+        <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf({ id, cliente, telefone, valor, produtos: produtosArray })}>
+       <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+       Exportar
+     </button>
+      
       
       <button className={styles.buttons}  onClick={handleVoltar} >
       <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>

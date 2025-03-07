@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../../global.module.css'
-import BotaoGerarPdf from '../../componentes/botaoGerarPdf';
+import gerarPdf from '../../componentes/gerarPdf';
 const Ordens = () => {
   const [ordens, setOrdens] = useState([]);
   const router = useRouter();
@@ -63,7 +63,11 @@ const Ordens = () => {
         Criar Nova Ordem
       </button>
       <div>
-        <BotaoGerarPdf  ordens={ordens}/>
+      <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(ordens)}>
+       <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+       Exportar
+     </button>
+       
      
      
       <button 

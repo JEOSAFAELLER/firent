@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
-
+import gerarPdf from "../../componentes/gerarPdf"
 
 
 
@@ -22,16 +22,14 @@ export default function Estoque() {
   };
   console.log(estoque)
 
-  
+ 
 
   useEffect(() => {
 
     fetchEstoque();
   }, []);
 
-  // const handleImprimir = () => {
-   
-  // };
+  
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
   };
@@ -51,8 +49,11 @@ export default function Estoque() {
           </button>
         </Link>
         <div>
-          
-
+        <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(estoque)}>
+       <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+       Exportar
+     </button>
+      
 
           <button className={styles.buttons} onClick={handleVoltar} style={{ justifySelf: 'flex-end' }} >
             <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
@@ -113,7 +114,7 @@ export default function Estoque() {
       <style jsx>{`
         @media print {
           /* Oculta o botão de imprimir na impressão */
-          button,
+           button,
           #editar_th,
           #editar_td{                    
             display: none;
