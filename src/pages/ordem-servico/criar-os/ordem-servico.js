@@ -15,8 +15,8 @@ export default function CriarOrdemServico() {
   const [produtos, setProdutos] = useState([]);
   const [produtoEditando, setProdutoEditando] = useState(null);
 
-  const reload= window.location.reload();
-  reload;
+ 
+  
   // Buscar estoque
   const fetchEstoque = async () => {
     const response = await fetch('/api/estoque');

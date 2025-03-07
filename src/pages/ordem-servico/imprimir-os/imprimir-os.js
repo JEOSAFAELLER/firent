@@ -65,6 +65,8 @@ const ImprimirOS = () => {
       <style jsx>{`
         @media print {
           /* Oculta o botão de imprimir na impressão */
+          .barra_pages,
+          .buttons,
           button,
            {
             display: none;

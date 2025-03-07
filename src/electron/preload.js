@@ -13,3 +13,13 @@ contextBridge.exposeInMainWorld("electron", {
   sendData: (data) => ipcRenderer.send("send-data", data),
 });
 
+window.addEventListener("DOMContentLoaded", () => {
+  if (!sessionStorage.getItem("reloaded")) {
+    sessionStorage.setItem("reloaded", "true");
+    window.location.reload();
+  } else {
+    sessionStorage.removeItem("reloaded");
+  }
+});
+
+
