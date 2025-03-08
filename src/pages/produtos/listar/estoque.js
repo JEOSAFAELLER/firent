@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import gerarPdf from "../../componentes/gerarPdf"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faEdit, faFilePdf, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -44,19 +46,19 @@ export default function Estoque() {
 
         <Link href="/produtos/cadastrar/cadastro-produto">
           <button className={styles.buttons} >
-            <i className="fa fa-plus" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            <FontAwesomeIcon icon={faPlus} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
             Cadastrar Novo Produto
           </button>
         </Link>
         <div>
         <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(estoque)}>
-       <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+       <FontAwesomeIcon icon={faFilePdf} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
        Exportar
      </button>
       
 
           <button className={styles.buttons} onClick={handleVoltar} style={{ justifySelf: 'flex-end' }} >
-            <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
             Voltar
           </button>
 
@@ -93,7 +95,7 @@ export default function Estoque() {
                   <Link href={`/produtos/editar/${produto.codigo}`}>
                     <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
 
-                      <i className="fa fa-edit" style={{ fontSize: '20px', color: '#545e75' }}></i>
+                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: '20px', color: '#545e75' }}/>
                     </button>
                   </Link>
 

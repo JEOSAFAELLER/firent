@@ -2,6 +2,9 @@
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import gerarPdf from '../../componentes/gerarPdf';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePdf, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 
 
 const ImprimirOS = () => {
@@ -25,13 +28,14 @@ const ImprimirOS = () => {
         </div>
         <div  className={styles.barra_pages}>
         <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf({ id, cliente, telefone, valor, produtos: produtosArray })}>
-       <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+       <FontAwesomeIcon icon={faFilePdf}  style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }} />
        Exportar
      </button>
       
       
       <button className={styles.buttons}  onClick={handleVoltar} >
-      <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+      
+      <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
            Voltar
         </button>
 

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft ,faCirclePlus,faClose,faEdit,faFloppyDisk,faMagnifyingGlass, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
+
 
 export default function CriarOrdemServico() {
   const router = useRouter();
@@ -138,13 +141,13 @@ export default function CriarOrdemServico() {
       <div className={styles.barra_pages}>
         
           <button className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4',fontWeight:'bolder'}} >
-          <i className="fa fa-floppy-disk" style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}></i>
+          <FontAwesomeIcon icon={faFloppyDisk} style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}/>
             Salvar
           </button>
         
 
         <button className={styles.buttons} onClick={handleVoltar} >
-          <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+          <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
           Voltar
         </button>
       </div>
@@ -175,7 +178,7 @@ export default function CriarOrdemServico() {
             <label style={{marginLeft:"20px"}} htmlFor="codigoProduto">Código:</label>
             <div style={{ display: 'flex', alignItems: 'center' }}>
             <button type="button" onClick={openEstoqueModal} style={{  background:"none", border:"none", padding:"0", cursor:"pointer", width:"20px",marginRight:"5px" }}>
-            <i className="fa fa-magnifying-glass" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
                
             </button>
             <input
@@ -206,7 +209,7 @@ export default function CriarOrdemServico() {
           </div>
 
           <button  type="button" onClick={adicionarProduto} style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px",marginTop:"20px"}}>
-          <i className="fa fa-circle-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+          <FontAwesomeIcon icon={faCirclePlus} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
             
           </button>
         </div>
@@ -236,7 +239,7 @@ export default function CriarOrdemServico() {
                     editarProduto(index);
                     setProdutos(produtos.filter((_, i) => i !== index));            
 
-                  }}><i className="fa fa-edit" style={{ fontSize: '20px', color: '#545e75' }}></i></button>
+                  }}><FontAwesomeIcon icon={faEdit} style={{ fontSize: '20px', color: '#545e75' }}/></button>
                   <button  type='button' style={{ background: 'none', border: 'none', cursor: 'pointer' }}  onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}><i className="fa fa-trash" style={{ fontSize: '20px', color: '#9e2a2b' }}></i></button>
                 </td>
               </tr>
@@ -272,7 +275,7 @@ export default function CriarOrdemServico() {
             <button
             style={closeButtonStyles}
             onClick={() => setEstoqueModalOpen(false)}>
-               <i className="fa fa-close" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+               <FontAwesomeIcon icon={faClose} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
               </button>
             <table border="2" cellPadding="7" style={{ width: '100%' }}>
               <thead>
@@ -298,7 +301,7 @@ export default function CriarOrdemServico() {
                           setEstoqueModalOpen(false);
                         }}
                       >
-                        <i className="fa fa-square-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+                        <FontAwesomeIcon icon={faSquarePlus} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
                         
                       </button>
                     </td>

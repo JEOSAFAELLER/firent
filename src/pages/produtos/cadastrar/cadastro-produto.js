@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router'
 import styles from '../../global.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function CadastroProduto() {
@@ -53,13 +55,13 @@ export default function CadastroProduto() {
       <div className={styles.barra_pages}>
         
           <button className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4',fontWeight:'bolder'}} >
-          <i className="fa fa-floppy-disk" style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}></i>
+          <FontAwesomeIcon icon={faFloppyDisk} style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}/>
             Salvar
           </button>
         
 
         <button className={styles.buttons} onClick={handleVoltar} >
-          <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+          <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
           Voltar
         </button>
       </div>

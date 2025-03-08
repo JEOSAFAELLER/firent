@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faArrowLeft ,faArrowsRotate,faCirclePlus,faClose,faEdit,faFloppyDisk,faMagnifyingGlass, faPrint, faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 
 export default function EditarOrdemServico() {
@@ -193,24 +194,24 @@ export default function EditarOrdemServico() {
       <div className={styles.barra_pages}>
 
         <button className={styles.buttons} onClick={handleSubmit} style={{ color: '#f2d0a4', fontWeight: 'bolder' }} >
-          <i className="fa fa-floppy-disk" style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}></i>
+          <FontAwesomeIcon icon={faFloppyDisk} style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}/>
           Salvar
         </button>
         <div>
 
           <button className={styles.buttons} onClick={imprimir} >
-            <i className="fa fa-print" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            <FontAwesomeIcon icon={faPrint} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
             Imprimir
           </button>
 
           <button className={styles.buttons} onClick={handleRefresh} >
-        <i className="fa fa-arrows-rotate" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+        <FontAwesomeIcon icon={faArrowsRotate} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
           Recarregar
         </button>
 
 
           <button className={styles.buttons} onClick={handleVoltar} >
-            <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+            <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
             Voltar
           </button>
 
@@ -275,7 +276,7 @@ export default function EditarOrdemServico() {
              onClick={openEstoqueModal} 
 
              style={{  background:"none", border:"none", padding:"0", cursor:"pointer", width:"20px",marginRight:"5px" }}>
-            <i className="fa fa-magnifying-glass" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
             </button>
             <input
             className={styles.input_os_cliente }
@@ -283,7 +284,6 @@ export default function EditarOrdemServico() {
               type="number"
               id="codigoProduto"
               value={codigoProduto}
-              //onChange={(e) => setCodigoProduto(e.target.value)}
               onChange={(e) => {
                 const value = e.target.value;
                 if (value === "" || value > 0) {
@@ -323,7 +323,7 @@ export default function EditarOrdemServico() {
           </div>
 
           <button style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px",marginTop:"20px"}} disabled={!ativo}  type="button" onClick={adicionarProduto}>
-          <i className="fa fa-circle-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+          <FontAwesomeIcon icon={faCirclePlus} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
           </button>
         </div>
 
@@ -350,8 +350,8 @@ export default function EditarOrdemServico() {
                     editarProduto(index);
                     setProdutos(produtos.filter((_, i) => i !== index));            
 
-                  }}><i className="fa fa-edit" style={{ fontSize: '20px', color: '#545e75' }}></i></button>
-                  <button  type='button' style={{ background: 'none', border: 'none', cursor: 'pointer' }} disabled={!ativo} onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}><i className="fa fa-trash" style={{ fontSize: '20px', color: '#9e2a2b' }}></i></button>
+                  }}><FontAwesomeIcon icon={faEdit} style={{ fontSize: '20px', color: '#545e75' }}/></button>
+                  <button  type='button' style={{ background: 'none', border: 'none', cursor: 'pointer' }} disabled={!ativo} onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}><FontAwesomeIcon icon={faTrash} style={{ fontSize: '20px', color: '#9e2a2b' }}/></button>
                 </td>
               </tr>
             ))}
@@ -383,7 +383,7 @@ export default function EditarOrdemServico() {
             <button
               style={closeButtonStyles}
               onClick={() => setEstoqueModalOpen(false)}
-            ><i className="fa fa-close" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i></button>
+            ><FontAwesomeIcon icon={faClose} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/></button>
             <table border="1" cellPadding="7" style={{ width: '100%' }}>
               <thead>
                 <tr>
@@ -409,7 +409,7 @@ export default function EditarOrdemServico() {
                           setEstoqueModalOpen(false);
                         }}
                       >
-                        <i className="fa fa-square-plus" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+                        <FontAwesomeIcon icon={faSquarePlus} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
                       </button>
                     </td>
                   </tr>

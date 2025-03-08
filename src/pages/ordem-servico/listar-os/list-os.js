@@ -3,6 +3,9 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../../global.module.css'
 import gerarPdf from '../../componentes/gerarPdf';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faEdit, faFilePdf, faPlus, faPrint } from '@fortawesome/free-solid-svg-icons';
+
 const Ordens = () => {
   const [ordens, setOrdens] = useState([]);
   const router = useRouter();
@@ -59,12 +62,12 @@ const Ordens = () => {
         onClick={handleCreate}
       
       >
-        <i className="fa fa-plus" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+        <FontAwesomeIcon icon={faPlus} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
         Criar Nova Ordem
       </button>
       <div>
       <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(ordens)}>
-       <i className="fa fa-file-pdf" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+       <FontAwesomeIcon icon={faFilePdf} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
        Exportar
      </button>
        
@@ -73,7 +76,7 @@ const Ordens = () => {
       <button 
       className={styles.buttons}      
       onClick={handleVoltar} >
-        <i className="fa fa-arrow-left" style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}></i>
+        <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
         
            Voltar
         </button>
@@ -106,11 +109,11 @@ const Ordens = () => {
                 <td id='editar_td' className={styles.celula}>
                   <Link href={`/ordem-servico/editar-os/${ordem.os}`}>
                     <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                      <i className="fa fa-edit" style={{ fontSize: '20px', color: '#545e75' }}></i>
+                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: '20px', color: '#545e75' }}/>
                     </button>
                   </Link>
                   <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}  onClick={()=>imprimir(ordem)} >
-            <i className="fa fa-print" style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}></i>
+            <FontAwesomeIcon icon={faPrint} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
             
           </button>
                 </td>
