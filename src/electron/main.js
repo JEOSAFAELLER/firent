@@ -48,7 +48,7 @@ app.whenReady().then(() => {
     mainWindow.loadURL('http://localhost:3000'); // Next.js rodando
 Menu.setApplicationMenu(null);
 
-mainWindow.webContents.openDevTools();
+//mainWindow.webContents.openDevTools();
 
 
 

@@ -4,7 +4,7 @@ import styles from './global.module.css'
 import { faBoxesStacked, faDoorOpen, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
+import Image from "next/image";
 
 export default function Index() {
   return (
@@ -40,7 +40,22 @@ export default function Index() {
 
       </div>
 
+     
+<div style={{ width: "100%", height: "auto", overflow: "hidden", maxHeight:"800px" }}>
+<Image
+          src="/images/tree4.png" // Caminho correto dentro da pasta public/
+        
+        layout='responsive'
+           
+         width={800} // Define um tamanho fixo dentro da div
+         height={500}
+          alt="Imagem ilustrativa"
       
+        />
+
+</div>
+     
+
 
 
 
