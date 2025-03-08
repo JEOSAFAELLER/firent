@@ -56,6 +56,9 @@ mainWindow.webContents.openDevTools();
     app.on('window-all-closed', () => {
         if (process.platform !== 'darwin') app.quit();
     });
+    ipcMain.on("close-app", () => {
+      app.quit();
+    });
 
     
     ipcMain.handle("gerar-pdf", async (event, nomeArquivo) => {
