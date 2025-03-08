@@ -1,4 +1,4 @@
-import { updateItem, editarProdutoPorId, deletarProduto, atualizarStatus  } from '../../../backend/estoqueService';
+import { updateItem, editarProdutoPorId  } from '../../../backend/estoqueService';
 
 export default async function handler(req, res) {
   const { id } = req.query;
@@ -27,26 +27,7 @@ export default async function handler(req, res) {
   }
 
  
-  if (req.method === 'DELETE') {
-    
-            try {
-              
-                if (!id) {
-                    return res.status(400).json({ message: 'ID do produto é obrigatório' });
-                }
-    
-                const result = await deletarProduto(id);
-    
-                if (result.success) {
-                    return res.status(200).json({ message: "Produto deletado com sucesso!" });
-                } else {
-                    return res.status(500).json({ message: result.message, error: result.error });
-                }
-            } catch (error) {
-                console.error("Erro ao deletar ordem:", error);
-                return res.status(500).json({ message: "Erro interno no servidor", error });
-            }
-        }
+  
 
   res.status(405).json({ message: 'Método não permitido' });
 }

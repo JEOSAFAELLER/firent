@@ -2,6 +2,8 @@
   "name": "firent",
   "version": "1.0.0",
   "main": "src/electron/main.js",
+  "description": "Um app de gestão de produtos para locação",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next dev",
@@ -11,15 +13,14 @@
     "electron-build": "electron-builder"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jeosafa Eller",
   "license": "ISC",
-  "description": "",
+  
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@prisma/client": "^6.4.1",
-    "electron": "^34.2.0",
     "fs-extra": "^11.3.0",
     "next": "^15.1.7",
     "pdfmake": "^0.2.18",
@@ -27,5 +28,13 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8"
   }
+  
+  
+  
+  
 }

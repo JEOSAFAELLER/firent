@@ -31,13 +31,17 @@ function createSplashScreen() {
 }
 
 
-
+const iconPath = path.join(__dirname, "./public/icon" + 
+  (process.platform === "win32" ? ".ico" : process.platform === "darwin" ? ".icns" : ".png")
+);
 
 app.whenReady().then(() => {
+
     createSplashScreen();
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        icon: iconPath,
         webPreferences: {
           preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
