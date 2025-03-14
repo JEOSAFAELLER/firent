@@ -1,34 +1,64 @@
 {
-  "appId": "com.firent.app",
+  "appId": "firent.Desktop",
   "productName": "Firent",
+
+
+  "extraMetadata": {
+    "main": "src/electron/main.js"
+  },
   
-  
-  "files": [
+  "files": [   
+
     "out/**/*",
+    "node_modules/**/*",
     "src/electron/**/*",
+    ".nest/**/*",
     "package.json"
   ],
+  "deb": {
+    "artifactName": "${version}/${name}_${version}-1_${arch}.${ext}",
+    "synopsis": "Firent Desktop App",
+    "depends": [
+      "libnotify4",
+      "libxtst6",
+      "libnss3"
+    ],
+    "priority": "optional"
+  },
+ 
+
+
   "extraResources": [
     {
       "from": "prisma/database.sqlite",
-      "to": "database.sqlite"
-    },
-    {
-      "from": "node_modules/sqlite3",
-      "to": "node_modules/sqlite3"
+      "to": "prisma/database.sqlite"
     }
+   
   ],
   "win": {
     "target": "nsis",
-    "icon": "public/icon.ico"
+    "icon": "public/icon.ico",
+     "artifactName": "${productName}_Setup_${version}.${ext}"
   },
   "mac": {
     "target": "dmg",
     "icon": "public/icon.icns"
   },
   "linux": {
-    "target": "AppImage",
+    "target": [
+      "dir",
+      "appimage",
+      "zip"
+    ],
     "icon": "public/icon.png",
-    "category": "Utility"
+    "category": "Utility",
+    "desktop": {
+    "Name": "Firent",
+    "Comment": "Firent Desktop App",
+    "executableName": "Firent",
+    "Terminal": false
+  }
+  
+    
   }
 }
