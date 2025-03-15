@@ -19,6 +19,9 @@ let nextApp = null;
 
 
 async function setPort() {
+  
+  
+
   try {
     const availablePort = await portfinder.getPortPromise({ port: NEXT_PORT });
    // const availablePort = await portfinder.getPortPromise({ port: NEXT_PORT });
@@ -36,20 +39,23 @@ async function setPort() {
 
 
 
-//const NEXT_PROCESS = Symbol('nextProcess');
 
-//const nextPath = path.join(__dirname, "../../node_modules/.bin/next");
+
+
+
 
 async function startNextJSServer() {
+
+  
   try {
-    const nextApp = next({ dev: !app.isPackaged, dir: path.join(__dirname, "..") });
+    nextApp = next({ dev: true, dir: path.join(__dirname, "..") });
     await nextApp.prepare();
     
     const handle = nextApp.getRequestHandler();
 
    
 
-    const nextServer = http.createServer((req, res) => handle(req, res));
+    nextServer = http.createServer((req, res) => handle(req, res));
 
     return new Promise((resolve, reject) => {
       nextServer.listen(NEXT_PORT, (err) => {
@@ -75,6 +81,7 @@ function stopNextJSServer() {
     console.log("Finalizando Next.js...");
     nextServer.close(() => {
       console.log("Next.js finalizado.");
+      nextServer = null;
     });
   }
 }
@@ -112,14 +119,7 @@ app.whenReady().then(async() => {
 await setPort();
     createSplashScreen();
     console.log("Iniciando Next.js...");
-    //const nextProcess = exec(`${nextPath} dev -p ${NEXT_PORT}`, { cwd: path.join(__dirname, "..") });
-    // console.log(nextProcess)
-    // nextProcess.stdout.on("data", (data) => console.log(`Next.js: ${data}`));
-    // nextProcess.stderr.on("data", (data) => console.error(`Next.js Error: ${data}`));
-  
-    // nextProcess.on("exit", (code) => console.log(`Next.js finalizado com código ${code}`));
-  
-    // app[NEXT_PROCESS] = nextProcess;
+   
 
     await startNextJSServer();
 
@@ -135,17 +135,10 @@ await setPort();
             
         },
     });
-    if (app.isPackaged) {
-      appServe(mainWindow).then(() => {
-        mainWindow.loadURL("app://-");
-      });
-    }else{
-      setTimeout(() =>{
-        mainWindow.loadURL(`http://localhost:${NEXT_PORT}`);
-      
-      }, 5000);
-
-    }
+    
+    
+      mainWindow.loadURL(`http://localhost:${NEXT_PORT}`);
+    
 
 
      // Next.js rodando

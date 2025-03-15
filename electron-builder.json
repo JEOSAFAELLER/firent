@@ -1,19 +1,39 @@
 {
   "appId": "firent.Desktop",
   "productName": "Firent",
+  "asar": false,
+  
 
 
   "extraMetadata": {
-    "main": "src/electron/main.js"
+    "main": "/electron/main.js"
+     
   },
+  
   
   "files": [   
 
-    "out/**/*",
-    "node_modules/**/*",
-    "src/electron/**/*",
-    ".nest/**/*",
-    "package.json"
+  "!node_modules/**/*", 
+  "node_modules/@fortawesome/**/*",
+  "node_modules/@prisma/**/*",
+  "node_modules/chalk/**/*",
+  "node_modules/fs-extra/**/*",
+  "node_modules/lodash/**/*",
+  "node_modules/next/**/*",
+  "node_modules/pdfmake/**/*",
+  "node_modules/portfinder/**/*",
+  "node_modules/prisma/**/*",
+  "node_modules/react/**/*",
+  "node_modules/react-dom/**/*",
+  "node_modules/sharp/**/*",
+  "node_modules/sqlite3/**/*",
+  "prisma/**/*",
+  "public/**/*",
+  "src/**/*",
+  "package.json",
+  ".next/**/*",
+  "electron/**/*",
+  ".env"
   ],
   "deb": {
     "artifactName": "${version}/${name}_${version}-1_${arch}.${ext}",
@@ -27,14 +47,7 @@
   },
  
 
-
-  "extraResources": [
-    {
-      "from": "prisma/database.sqlite",
-      "to": "prisma/database.sqlite"
-    }
-   
-  ],
+  
   "win": {
     "target": "nsis",
     "icon": "public/icon.ico",
@@ -47,8 +60,8 @@
   "linux": {
     "target": [
       "dir",
-      "appimage",
-      "zip"
+      "appimage"
+      
     ],
     "icon": "public/icon.png",
     "category": "Utility",

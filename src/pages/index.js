@@ -43,7 +43,7 @@ export default function Index() {
      
       <div style={{ width: "100%", height: "auto", overflow: "hidden", maxHeight:"800px" }}>
   <img
-    src="../../public/images/tree4.png" 
+    src="/tree4.png" 
     style={{ width: "100%", height: "auto", maxHeight: "800px" }} // Controla o tamanho da imagem
     alt="Imagem ilustrativa"
   />
