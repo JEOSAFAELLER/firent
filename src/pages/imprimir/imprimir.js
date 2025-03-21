@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 
+
 export default function BotaoImprimir() {
   const [ipcRenderer, setIpcRenderer] = useState(null);
 
@@ -17,14 +18,15 @@ export default function BotaoImprimir() {
 
       ipcRenderer.once('impressao-concluida', (sucesso) => {
         if (sucesso) {
-          alert('🖨️ Impressão concluída com sucesso!');
+          
+          console.log('🖨️ Impressão concluída com sucesso!');
         } else {
-          alert('❌ Erro ao imprimir.');
+          console.log('❌ Erro ao imprimir.');
         }
       });
 
       ipcRenderer.once('erro-impressao', (mensagem) => {
-        alert(`❌ Erro ao imprimir: ${mensagem}`);
+        console.log(`❌ Erro ao imprimir: ${mensagem}`);
       });
     } else {
       console.error("❌ ipcRenderer não está disponível.");

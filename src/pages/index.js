@@ -3,13 +3,14 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './global.module.css'
 import { faBoxesStacked, faDoorOpen, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { over } from 'lodash';
 
 
 
 export default function Index() {
   return (
 
-    <div className={styles.container}>
+    <div className={styles.container} style={{overflow:"hidden"}}>
       <div className={styles.titulo}>
         <h1>Bem-vindo ao Firent!</h1>
         
@@ -41,10 +42,10 @@ export default function Index() {
       </div>
 
      
-      <div style={{ width: "100%", height: "auto", overflow: "hidden", maxHeight:"800px" }}>
+      <div style={{display:"flex", justifyContent:'center', alignItems:"center",  width: "100%", height: "auto" }}>
   <img
     src="/tree4.png" 
-    style={{ width: "100%", height: "auto", maxHeight: "800px" }} // Controla o tamanho da imagem
+    style={{ width: "100%", height: "auto",  maxWidth:"1200px", objectFit: "cover"}} // Controla o tamanho da imagem
     alt="Imagem ilustrativa"
   />
 </div>

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowsRotate, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastOK, ToastError, ToastAlert } from '../../componentes/toast/toast';
 
 export default function EditarProduto() {
   const router = useRouter();
@@ -22,6 +22,8 @@ export default function EditarProduto() {
   
   const [loading, setLoading] = useState(true);
   const [ativo, setAtivo] = useState(produto.ativo)
+  const [message, setMessage] = useState("on" | "off")
+  const [status, setStatus] = useState('ok' | 'error')
   
   // Função para buscar o produto a ser editado
   const fetchProduto = async () => {
@@ -48,8 +50,16 @@ export default function EditarProduto() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+    if(!produto.nome || !produto.quantidade  ){
+      setMessage("on")
+      setTimeout(() => setMessage(""), 3000)
+
+      return;
+    }
+
     
-    console.log(produto)
 
     const response = await fetch(`/api/estoque/${id}`, {
       method: 'PUT',
@@ -60,10 +70,12 @@ export default function EditarProduto() {
     });
 
     if (response.ok) {
-      alert('Produto atualizado com sucesso!');
-      router.back();
+      setStatus("ok")
+      setTimeout(() => router.back(),2500)
+      
     } else {
-      alert('Erro ao atualizar o produto.');
+      setStatus("error")
+      setTimeout(() => setStatus("") , 2500)
     }
   };
 
@@ -96,6 +108,9 @@ export default function EditarProduto() {
       <h1>Editar Produto</h1>
 
       </div>
+      { status === "ok" && <ToastOK />}
+       {status === "error" && <ToastError />} 
+      {message === "on" && <ToastAlert message={"Preencha todos os campos"} />}
       <div className={styles.barra_pages}>
       <button  className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4', fontWeight:'bolder'}}>
       <FontAwesomeIcon icon={faFloppyDisk} style={{ fontSize: '20px', color: '#f2d0a4', marginRight: "5px" }}/>

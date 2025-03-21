@@ -7,13 +7,15 @@ import styles from '../../global.module.css'
 import gerarPdf from "../../componentes/gerarPdf"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faEdit, faFilePdf, faPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastAlert } from '../../componentes/toast/toast';
 
 
 
 export default function Estoque() {
   const router = useRouter();
   const [estoque, setEstoque] = useState([]);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("");
 
 
   // Função para buscar o estoque
@@ -42,6 +44,7 @@ export default function Estoque() {
         <h1>Estoque Geral</h1>
 
       </div>
+      {toastType === "success" &&   <ToastAlert message={toastMessage} />}
       <div className={styles.barra_pages} >
 
         <Link href="/produtos/cadastrar/cadastro-produto">
@@ -51,7 +54,7 @@ export default function Estoque() {
           </button>
         </Link>
         <div>
-        <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(estoque)}>
+        <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(estoque, setToastMessage, setToastType)}>
        <FontAwesomeIcon icon={faFilePdf} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
        Exportar
      </button>

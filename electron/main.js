@@ -144,7 +144,7 @@ await setPort();
      // Next.js rodando
 Menu.setApplicationMenu(null);
 
-mainWindow.webContents.openDevTools();
+//mainWindow.webContents.openDevTools();
 
 
 

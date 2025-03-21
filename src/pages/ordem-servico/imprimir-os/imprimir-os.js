@@ -4,7 +4,8 @@ import styles from '../../global.module.css'
 import gerarPdf from '../../componentes/gerarPdf';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
+import { ToastAlert } from '../../componentes/toast/toast';
+import { useState } from 'react';
 
 
 const ImprimirOS = () => {
@@ -14,7 +15,8 @@ const ImprimirOS = () => {
   // Converte a string de produtos de volta para um array
   const produtosArray = produtos ? JSON.parse(produtos) : [];
 
-  
+  const [toastMessage, setToastMessage] = useState("");
+    const [toastType, setToastType] = useState("");
   
 
   const handleVoltar = () => {
@@ -26,8 +28,10 @@ const ImprimirOS = () => {
       <div className={styles.titulo}>
         <h1>Ordem de Serviço: {`${id}`}</h1>
         </div>
+        {toastType === "success" &&   <ToastAlert message={toastMessage} />}
+
         <div  className={styles.barra_pages}>
-        <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf({ id, cliente, telefone, valor, produtos: produtosArray })}>
+        <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf({ id, cliente, telefone, valor, produtos: produtosArray  }, setToastMessage, setToastType)}>
        <FontAwesomeIcon icon={faFilePdf}  style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }} />
        Exportar
      </button>

@@ -5,9 +5,11 @@ import styles from '../../global.module.css'
 import gerarPdf from '../../componentes/gerarPdf';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faEdit, faFilePdf, faPlus, faPrint } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastAlert } from '../../componentes/toast/toast';
 const Ordens = () => {
   const [ordens, setOrdens] = useState([]);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("");
   const router = useRouter();
 
   // Função para buscar as ordens de serviço da API
@@ -56,6 +58,8 @@ const Ordens = () => {
       <div className={styles.titulo}>
       <h1>Lista de Ordens de Serviço</h1>
       </div>
+      {toastType === "success" &&   <ToastAlert message={toastMessage} />}
+     
       <div className={styles.barra_pages}>
       <button
       className={styles.buttons}
@@ -66,7 +70,7 @@ const Ordens = () => {
         Criar Nova Ordem
       </button>
       <div>
-      <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(ordens)}>
+      <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(ordens, setToastMessage, setToastType)}>
        <FontAwesomeIcon icon={faFilePdf} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
        Exportar
      </button>

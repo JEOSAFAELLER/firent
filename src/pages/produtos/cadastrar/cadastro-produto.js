@@ -4,16 +4,28 @@ import { useRouter } from 'next/router'
 import styles from '../../global.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastOK, ToastError, ToastAlert } from '../../componentes/toast/toast';
 
 export default function CadastroProduto() {
   const [nome, setNome] = useState('');
   const [quantidade, setQuantidade] = useState('');
-  const [preco, setPreco] = useState('');
+  const [message, setMessage] = useState("on" | "off")
+  const [status, setStatus] = useState('ok' | 'error')
   const router = useRouter();
+  
   const handleSubmit =
+
     async (e) => {
       e.preventDefault();
+
+if(!nome || !quantidade ){
+  setMessage("on")
+  setTimeout(() => setMessage(""), 3000)
+
+  return;
+} 
+
+
       const response = await fetch('/api/estoque', {
         method: 'POST',
         headers: {
@@ -23,15 +35,17 @@ export default function CadastroProduto() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        alert('Produto cadastrado!');
+        
+        setStatus("ok");
+        setTimeout(() => router.back(), 3000)
+        
       } else {
-        alert('Erro ao cadastrar produto!');
+      setStatus("error")
+      setTimeout(() => setStatus(""), 2000)
       }
+    
 
-      setNome('');
-      setQuantidade('');
-      setPreco('');
+     
 
       // Aqui você pode fazer uma chamada para uma API ou enviar os dados ao backend
       console.log({ nome, quantidade });
@@ -39,8 +53,8 @@ export default function CadastroProduto() {
       // Limpar os campos após o envio
       setNome('');
       setQuantidade('');
-      setPreco('');
-      handleVoltar();
+      
+     
     };
 
   const handleVoltar = () => {
@@ -52,6 +66,9 @@ export default function CadastroProduto() {
       <div className={styles.titulo}>
         <h1>Cadastro de Produto</h1>
       </div>
+      { status === "ok" && <ToastOK />}
+      {status === "error" && <ToastError />}
+      {message === "on" && <ToastAlert message={"Preencha todos os campos"} />}
       <div className={styles.barra_pages}>
         
           <button className={styles.buttons} onClick={handleSubmit} style={{color:'#f2d0a4',fontWeight:'bolder'}} >

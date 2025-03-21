@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft ,faCirclePlus,faClose,faEdit,faFloppyDisk,faMagnifyingGlass, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
-
+import { ToastOK, ToastError } from '../../componentes/toast/toast';
 
 export default function CriarOrdemServico() {
   const router = useRouter();
@@ -17,7 +17,8 @@ export default function CriarOrdemServico() {
   const [estoqueModalOpen, setEstoqueModalOpen] = useState(false);
   const [produtos, setProdutos] = useState([]);
   const [produtoEditando, setProdutoEditando] = useState(null);
-
+  const [status, setStatus] = useState('ok' | 'error')
+ 
  
   
   // Buscar estoque
@@ -61,7 +62,7 @@ export default function CriarOrdemServico() {
   // Adicionar Produto à Lista
   const adicionarProduto = () => {
     if (!codigoProduto || !nomeProduto || quantidade <= 0) {
-      alert('Preencha os campos corretamente.');
+     <p>Prencha todos os dados!</p>
       return;
     }
 
@@ -109,17 +110,30 @@ export default function CriarOrdemServico() {
       });
 
       if (response.ok) {
-        alert('Ordem criada!');
+       setStatus("ok")
+
+       
+        console.log('Ordem criada!');
         setCliente('');
         setTelefone('');
         setProdutos([]);
         setValor('');
+        setTimeout(() => router.back(), 3000 ) 
+       
       } else {
-        alert('Erro ao cadastrar ordem');
+       setStatus("error")
+       
+        console.log('Erro ao cadastrar ordem');
+        
       }
     } catch (error) {
-      alert('Erro ao cadastrar ordem: ' + error.message);
+      console.log('Erro ao cadastrar ordem: ' + error.message);
     }
+    setTimeout(() => setStatus(""), 2500)
+   
+   
+    
+
   };
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
@@ -312,6 +326,9 @@ export default function CriarOrdemServico() {
           </div>
         </div>
       )}
+     
+      {status === "ok" && <ToastOK />}
+      {status === "error" && <ToastError />}
     </div>
   );
 }

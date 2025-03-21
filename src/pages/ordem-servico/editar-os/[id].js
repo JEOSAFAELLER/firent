@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faArrowLeft ,faArrowsRotate,faCirclePlus,faClose,faEdit,faFloppyDisk,faMagnifyingGlass, faPrint, faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
-
+import { ToastOK, ToastError, ToastAlert } from '../../componentes/toast/toast';
 
 export default function EditarOrdemServico() {
   const router = useRouter();
@@ -20,6 +20,8 @@ export default function EditarOrdemServico() {
   const [quantidade, setQuantidade] = useState(1);
   const [ativo, setAtivo] = useState('')
   const [produtoEditando, setProdutoEditando] = useState(null);
+  const [message, setMessage] = useState("on" | "off")
+  const [status, setStatus] = useState('ok' | 'error')
 
   useEffect(() => {
     if (id) {
@@ -95,7 +97,9 @@ export default function EditarOrdemServico() {
 
   const adicionarProduto = () => {
     if (!codigoProduto || !nomeProduto || quantidade <= 0) {
-      alert('Preencha os campos corretamente.');
+      setMessage("on");
+      setTimeout(() => setMessage(""),3000);
+      
       return;
     }
 
@@ -116,7 +120,9 @@ export default function EditarOrdemServico() {
     e.preventDefault();
 
     if (!cliente || !telefone || !Array.isArray(produtos) || produtos.length === 0 || !valor) {
-      alert('Preencha todos os campos obrigatórios e adicione pelo menos um produto.');
+setMessage("on");
+setTimeout(() => setMessage(""),3000);
+    
       return;
     }
 
@@ -147,15 +153,20 @@ export default function EditarOrdemServico() {
       const result = await response.json();
 
       if (response.ok) {
-        alert('Ordem atualizada com sucesso!');
-        router.push('/ordem-servico/listar-os/list-os');
+        setStatus("ok")
+       setTimeout(()=> router.back(),3000)
+      
       } else {
-        alert(`Erro ao atualizar a ordem: ${result.message || 'Erro desconhecido'}`);
+        setStatus("error")
+
+        console.log(`Erro ao atualizar a ordem: ${result.message || 'Erro desconhecido'}`);
       }
     } catch (error) {
-      alert(`Erro ao atualizar ordem: ${error.message}`);
+      
       console.error('Erro na requisição:', error);
     }
+
+    setTimeout(()=> setStatus(""), 3000)
   };
   const imprimir = () => {
     router.push({
@@ -191,6 +202,9 @@ export default function EditarOrdemServico() {
       <div className={styles.titulo}>
         <h1>Editar Ordem de Serviço: {`${id}`}</h1>
       </div>
+      { status === "ok" && <ToastOK />}
+      {status === "error" && <ToastError />}
+      {message === "on" && <ToastAlert message={"preencha todos os campos"} />}
       <div className={styles.barra_pages}>
 
         <button className={styles.buttons} onClick={handleSubmit} style={{ color: '#f2d0a4', fontWeight: 'bolder' }} >
