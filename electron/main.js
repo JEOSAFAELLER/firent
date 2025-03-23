@@ -4,7 +4,8 @@ const fs = require("fs");
 const portfinder = require("portfinder");
 const http = require("http");
 const next = require("next");
-
+const os = require('os');
+const { getGenerators } = require('@prisma/internals');
 
 
 let splashWindow;
@@ -35,25 +36,60 @@ async function setPort() {
   }
 }
 
+async function generatePrismaClient() {
+  try {
+    console.log('Gerando Prisma Client...');
 
+    // Define o caminho para o schema do Prisma
+    const prismaSchemaPath = path.join(__dirname, '..', 'prisma', 'schema.prisma');
 
+    // Obtém os geradores do Prisma
+    const generators = await getGenerators({
+      schemaPath: prismaSchemaPath,
+      dataProxy: false,
+    });
+
+    // Itera sobre os geradores e gera o Prisma Client
+    for (const generator of generators) {
+      await generator.generate();
+    }
+
+    console.log('Prisma Client gerado com sucesso!');
+  } catch (error) {
+    console.error('Erro ao gerar Prisma Client:', error);
+    process.exit(1); // Encerra o processo com erro
+  }
+}git 
 
 
 
 
 
 async function startNextJSServer() {
-
-  
   try {
-    nextApp = next({ dev: true, dir: path.join(__dirname, "..") });
+    // Define um diretório temporário para o Next.js
+    const tempDir = path.join(app.getPath('userData'), 'firent-nextjs');
+
+    // Garante que o diretório temporário exista
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
+
+    // Inicia o Next.js em modo de produção
+    const nextApp = next({
+      dev: false,
+      dir: path.join(__dirname, ".."),
+      conf: {
+        distDir: tempDir, // Usa o diretório temporário para o build do Next.js
+      },
+    });
+
     await nextApp.prepare();
-    
+
     const handle = nextApp.getRequestHandler();
 
-   
-
-    nextServer = http.createServer((req, res) => handle(req, res));
+    // Cria o servidor HTTP
+    const nextServer = http.createServer((req, res) => handle(req, res));
 
     return new Promise((resolve, reject) => {
       nextServer.listen(NEXT_PORT, (err) => {
@@ -71,6 +107,38 @@ async function startNextJSServer() {
     throw error;
   }
 }
+
+
+
+// async function startNextJSServer() {
+
+  
+//   try {
+//     nextApp = next({ dev: true, dir: path.join(__dirname, "..") });
+//     await nextApp.prepare();
+    
+//     const handle = nextApp.getRequestHandler();
+
+   
+
+//     nextServer = http.createServer((req, res) => handle(req, res));
+
+//     return new Promise((resolve, reject) => {
+//       nextServer.listen(NEXT_PORT, (err) => {
+//         if (err) {
+//           console.error("Erro ao iniciar Next.js:", err);
+//           reject(err);
+//         } else {
+//           console.log(`Next.js rodando na porta ${NEXT_PORT}`);
+//           resolve(NEXT_PORT);
+//         }
+//       });
+//     });
+//   } catch (error) {
+//     console.error("Erro ao iniciar o servidor Next.js:", error);
+//     throw error;
+//   }
+// }
     
 
 
@@ -115,8 +183,13 @@ const iconPath = path.join(__dirname, "./public/icon" +
 
 app.whenReady().then(async() => {
 await setPort();
+
     createSplashScreen();
+    console.log("gerando o prisma")
+    await generatePrismaClient();
+
     console.log("Iniciando Next.js...");
+
    
 
     await startNextJSServer();
