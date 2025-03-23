@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft ,faCirclePlus,faClose,faEdit,faFloppyDisk,faMagnifyingGlass, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
-import { ToastOK, ToastError } from '../../componentes/toast/toast';
+import  ToastOK  from '../../componentes/toast/toastOK';
+import  ToastError  from '../../componentes/toast/toastError';
 
 export default function CriarOrdemServico() {
   const router = useRouter();

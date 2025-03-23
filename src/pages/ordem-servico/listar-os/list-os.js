@@ -5,7 +5,7 @@ import styles from '../../global.module.css'
 import gerarPdf from '../../componentes/gerarPdf';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faEdit, faFilePdf, faPlus, faPrint } from '@fortawesome/free-solid-svg-icons';
-import { ToastAlert } from '../../componentes/toast/toast';
+import  ToastAlert from '../../componentes/toast/toastAlert';
 const Ordens = () => {
   const [ordens, setOrdens] = useState([]);
   const [toastMessage, setToastMessage] = useState("");

@@ -3,7 +3,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import styles from './global.module.css'
 import { faBoxesStacked, faDoorOpen, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { over } from 'lodash';
 
 
 

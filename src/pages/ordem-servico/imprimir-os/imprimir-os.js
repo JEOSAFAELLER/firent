@@ -4,7 +4,7 @@ import styles from '../../global.module.css'
 import gerarPdf from '../../componentes/gerarPdf';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { ToastAlert } from '../../componentes/toast/toast';
+import  ToastAlert  from '../../componentes/toast/toastAlert';
 import { useState } from 'react';
 
 

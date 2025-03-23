@@ -1,8 +1,6 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const path = require('path');
 const fs = require("fs");
-//const { exec } = require("child_process");
-//const net = require("net");
 const portfinder = require("portfinder");
 const http = require("http");
 const next = require("next");

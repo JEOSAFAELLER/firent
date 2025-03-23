@@ -3,7 +3,10 @@ import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faArrowLeft ,faArrowsRotate,faCirclePlus,faClose,faEdit,faFloppyDisk,faMagnifyingGlass, faPrint, faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
-import { ToastOK, ToastError, ToastAlert } from '../../componentes/toast/toast';
+import  ToastOK  from '../../componentes/toast/toastOK';
+import  ToastError  from '../../componentes/toast/toastError';
+import  ToastAlert  from '../../componentes/toast/toastAlert';
+
 
 export default function EditarOrdemServico() {
   const router = useRouter();

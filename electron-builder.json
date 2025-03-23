@@ -12,12 +12,13 @@
   
   
   "files": [   
-
+"**/*",
   "!node_modules/**/*", 
   "node_modules/@fortawesome/**/*",
   "node_modules/@prisma/**/*",
   "node_modules/chalk/**/*",
   "node_modules/fs-extra/**/*",
+  "node_modules/fs-constants/**/*",
   "node_modules/lodash/**/*",
   "node_modules/next/**/*",
   "node_modules/pdfmake/**/*",
@@ -27,6 +28,8 @@
   "node_modules/react-dom/**/*",
   "node_modules/sharp/**/*",
   "node_modules/sqlite3/**/*",
+  "node_modules/async/**/*",
+
   "prisma/**/*",
   "public/**/*",
   "src/**/*",
