@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next dev",
-    "start": "electron",
+    "start": "npx prisma generate && electron .",
     "next": "next dev ",
     "electron": "electron .",
     "build": "npx prisma generate && next build && electron-builder ",
@@ -39,7 +39,7 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
-    "electron": "^34.2.0",
+    "electron": "^34.3.4",
     "electron-builder": "^25.1.8"
   }
 }
