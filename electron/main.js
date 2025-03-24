@@ -59,7 +59,7 @@ async function generatePrismaClient() {
     console.error('Erro ao gerar Prisma Client:', error);
     process.exit(1); // Encerra o processo com erro
   }
-}git 
+}
 
 
 
