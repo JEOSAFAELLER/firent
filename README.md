@@ -26,8 +26,10 @@ Como o desempenho e o consumo de memória eram preocupações importantes, optou
 ## ✨ Funcionalidades  
 ✅ **Cadastro de Produtos**  
 - Adicione itens com nome, quantidade, status.
+
 ✅ **Cadastro de Ordem de Serviço**  
 - Nome do cliente, telefone, produtos e valor.
+
 ✅ **Relatórios**  
 - Lista de produtos, Ordens de Serviço e Expotação em PDF.
 
