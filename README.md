@@ -25,18 +25,19 @@ Como o desempenho e o consumo de memória eram preocupações importantes, optou
 
 ## ✨ Funcionalidades  
 ✅ **Cadastro de Produtos**  
-- Adicione itens com nome, quantidade, status.
+- Adicione itens ao estoque informando nome, quantidade e status. 
 
 ✅ **Cadastro de Ordem de Serviço**  
-- Nome do cliente, telefone, produtos e valor.
+- Registre ordens com nome do cliente, telefone, produtos e valor.
 
-✅ **Relatórios**  
-- Lista de produtos, Ordens de Serviço e Expotação em PDF.
+✅ **Relatórios e Exportação** 
+- Geração de relatórios de produtos e ordens de serviço com opção de exportação em **PDF**.  
 
 ## 📷  Screenshots
 
-![Estoque](public/estoque.png)
-![OrdemServico](public/OrdemServico.png)
+<img src="public/estoque.png" alt="Tela de Estoque" width="600">  
+
+<img src="public/OrdemServico.png" alt="Tela de Ordem de Serviço" width="600">  
 
 ## 📜 Licença
 Este projeto está sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.
