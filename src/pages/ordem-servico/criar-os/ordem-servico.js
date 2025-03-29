@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft ,faCirclePlus,faClose,faEdit,faFloppyDisk,faMagnifyingGlass, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 import  ToastOK  from '../../componentes/toast/toastOK';
 import  ToastError  from '../../componentes/toast/toastError';
-
+import EstoqueModal from '../../componentes/EstoqueModal';
 export default function CriarOrdemServico() {
   const router = useRouter();
   const [codigoProduto, setCodigoProduto] = useState('');
@@ -280,10 +280,17 @@ export default function CriarOrdemServico() {
        
       </form>
     
-
+      {estoqueModalOpen && (
+  <EstoqueModal
+    estoque={estoque}
+    setCodigoProduto={setCodigoProduto}
+    setNomeProduto={setNomeProduto}
+    setEstoqueModalOpen={setEstoqueModalOpen}
+  />
+)}
 
       {/* Modal */}
-      {estoqueModalOpen && (
+      {/* {estoqueModalOpen && (
         <div id="modalBackdrop" style={modalStyles} onClick={closeEstoqueModal}>
           <div style={modalContentStyles}>
             <h2>Estoque</h2>
@@ -326,7 +333,7 @@ export default function CriarOrdemServico() {
             </table>
           </div>
         </div>
-      )}
+      )} */}
      
       {status === "ok" && <ToastOK />}
       {status === "error" && <ToastError />}
@@ -334,42 +341,7 @@ export default function CriarOrdemServico() {
   );
 }
 
-// Estilos corrigidos
 
-const modalStyles = {
-  position: 'fixed', // Fixa na tela
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fundo escuro semi-transparente
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  zIndex: 1000, // Garante que fique sobre tudo
-};
-const modalContentStyles = {
-  backgroundColor: '#fff',
-  padding: '20px',
-  borderRadius: '10px',
-  width: '60%',
-  maxWidth: '600px',
-  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-  position: 'relative',
-  animation: 'fadeIn 0.3s ease-in-out',
-};
-
-
-const closeButtonStyles = {
-  position: 'absolute',
-  top: '10px',
-  right: '15px',
-  fontSize: '18px',
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  color: '#333',
-};
 
 const ValorStyle = {
   display: 'grid',
