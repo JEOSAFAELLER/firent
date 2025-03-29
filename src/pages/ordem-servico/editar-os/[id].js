@@ -50,16 +50,16 @@ export default function EditarOrdemServico() {
     }
   }, [id]);
 
-  useEffect(() => {
-    if (!ativo) {
-      setProdutos((prevProdutos) =>
-        prevProdutos.map((produto) => ({
-          ...produto,
-          quantidade: 0, // Zera a quantidade de todos os produtos
-        }))
-      );
-    }
-  }, [ativo]); // 
+  // useEffect(() => {
+  //   if (!ativo) {
+  //     setProdutos((prevProdutos) =>
+  //       prevProdutos.map((produto) => ({
+  //         ...produto,
+  //         quantidade: 0, // Zera a quantidade de todos os produtos
+  //       }))
+  //     );
+  //   }
+  // }, [ativo]); // 
 
 
   const fetchEstoque = async () => {
@@ -76,11 +76,11 @@ export default function EditarOrdemServico() {
     setEstoqueModalOpen(true);
   };
 
-  const closeEstoqueModal = (e) => {
-    if (e.target.id === 'modalBackdrop') {
-      setEstoqueModalOpen(false);
-    }
-  };
+  // const closeEstoqueModal = (e) => {
+  //   if (e.target.id === 'modalBackdrop') {
+  //     setEstoqueModalOpen(false);
+  //   }
+  // };
   const buscarProduto = async () => {
     if (codigoProduto) {
       const response = await fetch(`/api/estoque/${codigoProduto}`);
