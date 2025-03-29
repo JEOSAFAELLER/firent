@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 
-const EstoqueModal = ({ estoque, setCodigoProduto, setNomeProduto, setEstoqueModalOpen }) => {
+const EstoqueModal = ({ estoque = [], setCodigoProduto, setNomeProduto, setEstoqueModalOpen }) => {
   const [filtro, setFiltro] = useState("");
 
   const produtosFiltrados = estoque.filter((item) =>
