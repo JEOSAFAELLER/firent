@@ -58,6 +58,22 @@
 
 }
 
+.botaoPaginacao {
+    background: none;
+    border: none;
+    color: #545e75;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .botaoPaginacao:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+  
+
 /* cadastro de produto*/
 
 .input_td{
