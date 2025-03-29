@@ -19,7 +19,7 @@ export default function Estoque() {
   const [paginaAtual, setPaginaAtual] = useState(1);
 
 
-  const itensPorPagina =10;
+  const itensPorPagina = 20;
   const indiceInicial = (paginaAtual - 1) * itensPorPagina;
   const indiceFinal = indiceInicial + itensPorPagina;
   const produtosPaginados = estoque.slice(indiceInicial, indiceFinal);
