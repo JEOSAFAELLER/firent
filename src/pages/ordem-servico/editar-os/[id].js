@@ -50,16 +50,7 @@ export default function EditarOrdemServico() {
     }
   }, [id]);
 
-  // useEffect(() => {
-  //   if (!ativo) {
-  //     setProdutos((prevProdutos) =>
-  //       prevProdutos.map((produto) => ({
-  //         ...produto,
-  //         quantidade: 0, // Zera a quantidade de todos os produtos
-  //       }))
-  //     );
-  //   }
-  // }, [ativo]); // 
+
 
 
   const fetchEstoque = async () => {
@@ -242,6 +233,7 @@ setTimeout(() => setMessage(""),3000);
 
             <label>Cliente:</label>
             <input
+            disabled={!ativo} 
               className={styles.input_os_cliente} 
                type="text" 
               value={cliente} 
@@ -250,6 +242,7 @@ setTimeout(() => setMessage(""),3000);
           <div className={styles.formRowStyle}>
             <label>Telefone:</label>
             <input
+            disabled={!ativo} 
               className={styles.input_os_cliente}
                type="text" 
               value={telefone} 
@@ -260,6 +253,7 @@ setTimeout(() => setMessage(""),3000);
           <div className={styles.formRowStyle}>
           <label style={{marginTop:"10px"}} >
           <input
+          style={{cursor:'pointer'}}
            className={styles.input_os_cliente}
 
             type="checkbox"
@@ -292,10 +286,11 @@ setTimeout(() => setMessage(""),3000);
             type="button"
              onClick={openEstoqueModal} 
 
-             style={{  background:"none", border:"none", padding:"0", cursor:"pointer", width:"20px",marginRight:"5px" }}>
+             style={{  background:"none", border:"none", padding:"0", cursor: ativo? 'pointer': 'not-allowed', width:"20px",marginRight:"5px" }}>
             <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
             </button>
             <input
+            disabled={!ativo} 
             className={styles.input_os_cliente }
               readOnly={!ativo}
               type="number"
@@ -319,6 +314,7 @@ setTimeout(() => setMessage(""),3000);
           <div className={styles.formRowStyle} >
             <label htmlFor="nomeProduto">Nome:</label>
             <input
+            disabled={!ativo} 
             className={styles.input_os_cliente }
               readOnly={true}
               style={{ width: "400px" }}
@@ -332,6 +328,7 @@ setTimeout(() => setMessage(""),3000);
           <div className={styles.formRowStyle} >
             <label htmlFor="quantidade">Quantidade:</label>
             <input
+            disabled={!ativo} 
             className={styles.input_os_cliente }
               type="number"
                id="quantidade" 
@@ -339,7 +336,7 @@ setTimeout(() => setMessage(""),3000);
                onChange={(e) => setQuantidade(e.target.value)} />
           </div>
 
-          <button style={{background:"none", border:"none", padding:"0", cursor:"pointer", width:"25px", height:"25px",marginTop:"20px"}} disabled={!ativo}  type="button" onClick={adicionarProduto}>
+          <button style={{background:"none", border:"none", padding:"0", cursor: ativo? 'pointer': 'not-allowed', width:"25px", height:"25px",marginTop:"20px"}} disabled={!ativo}  type="button" onClick={adicionarProduto}>
           <FontAwesomeIcon icon={faCirclePlus} style={{ fontSize: '20px', color: '#545e75', marginRight: "5px" }}/>
           </button>
         </div>
@@ -361,14 +358,14 @@ setTimeout(() => setMessage(""),3000);
                 <td className={styles.celula}>
                   <button
                   type='button'
-                   style={{ background: 'none', border: 'none', cursor: 'pointer' }} 
+                   style={{ background: 'none', border: 'none', cursor: ativo? 'pointer': 'not-allowed' }} 
                    disabled={!ativo} 
                    onClick={() => {
                     editarProduto(index);
                     setProdutos(produtos.filter((_, i) => i !== index));            
 
                   }}><FontAwesomeIcon icon={faEdit} style={{ fontSize: '20px', color: '#545e75' }}/></button>
-                  <button  type='button' style={{ background: 'none', border: 'none', cursor: 'pointer' }} disabled={!ativo} onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}><FontAwesomeIcon icon={faTrash} style={{ fontSize: '20px', color: '#9e2a2b' }}/></button>
+                  <button  type='button' style={{ background: 'none', border: 'none', cursor: ativo? 'pointer': 'not-allowed' }} disabled={!ativo} onClick={() => setProdutos(produtos.filter((_, i) => i !== index))}><FontAwesomeIcon icon={faTrash} style={{ fontSize: '20px', color: '#9e2a2b' }}/></button>
                 </td>
               </tr>
             ))}
@@ -381,7 +378,7 @@ setTimeout(() => setMessage(""),3000);
 <label  >Valor:</label>
         <input
         className={styles.input_os_cliente}
-          
+        disabled={!ativo} 
           type="number" 
           value={valor} 
           onChange={(e) => setValor(e.target.value)} required />

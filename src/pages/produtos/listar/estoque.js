@@ -134,14 +134,14 @@ export default function Estoque() {
         </tbody>
       </table>
       <div className={styles.titulo} style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', padding:'7px'  }}>
-  <button onClick={paginaAnterior} disabled={paginaAtual === 1} className={styles.botaoPaginacao}>
+  <button onClick={paginaAnterior} disabled={paginaAtual === 1} className={styles.botaoPaginacao} style={{ cursor: paginaAtual === 1 ? "not-allowed" : "pointer" }}>
   <FontAwesomeIcon icon={faCircleArrowLeft} style={{ fontSize: '20px',  marginRight: "5px" }} />
     Anterior
   </button>
   <span style={{ margin: '0 10px' }}>
     Página {paginaAtual} de {totalPaginas}
   </span>
-  <button onClick={proximaPagina} disabled={paginaAtual === totalPaginas} className={styles.botaoPaginacao} >
+  <button onClick={proximaPagina} disabled={paginaAtual === totalPaginas} className={styles.botaoPaginacao}  style={{ cursor: paginaAtual === 1 ? "not-allowed" : "pointer" }}>
   <FontAwesomeIcon icon={faCircleArrowRight} style={{ fontSize: '20px',  marginRight: "5px" }} />
     Próxima
   </button>
