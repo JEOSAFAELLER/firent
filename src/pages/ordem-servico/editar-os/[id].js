@@ -6,7 +6,7 @@ import {  faArrowLeft ,faArrowsRotate,faCirclePlus,faClose,faEdit,faFloppyDisk,f
 import  ToastOK  from '../../componentes/toast/toastOK';
 import  ToastError  from '../../componentes/toast/toastError';
 import  ToastAlert  from '../../componentes/toast/toastAlert';
-
+import EstoqueModal from '../../componentes/EstoqueModal';
 
 export default function EditarOrdemServico() {
   const router = useRouter();
@@ -390,10 +390,17 @@ setTimeout(() => setMessage(""),3000);
 </div>
       
 
-     
+{estoqueModalOpen && (
+  <EstoqueModal
+    estoque={estoque}
+    setCodigoProduto={setCodigoProduto}
+    setNomeProduto={setNomeProduto}
+    setEstoqueModalOpen={setEstoqueModalOpen}
+  />
+)}
 
 
-      {estoqueModalOpen && (
+      {/* {estoqueModalOpen && (
         <div id="modalBackdrop" style={modalStyles} onClick={closeEstoqueModal}>
           <div style={modalContentStyles}>
             <h2>Estoque</h2>
@@ -435,46 +442,14 @@ setTimeout(() => setMessage(""),3000);
             </table>
           </div>
         </div>
-      )}
+      )} */}
 
     </div>
   );
 }
 
 
-const modalStyles = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  zIndex: 1000,
-};
 
-const modalContentStyles = {
-  backgroundColor: '#fff',
-  padding: '20px',
-  borderRadius: '10px',
-  width: '60%',
-  maxWidth: '600px',
-  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-  position: 'relative',
-};
-
-const closeButtonStyles = {
-  position: 'absolute',
-  top: '10px',
-  right: '15px',
-  fontSize: '18px',
-  background: 'none',
-  border: 'none',
-  cursor: 'pointer',
-  color: '#333',
-};
 const ValorStyle = {
   display: 'grid',
   gridTemplateColumns: '1fr',

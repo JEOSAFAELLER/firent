@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import styles from '../../global.module.css'
 import gerarPdf from "../../componentes/gerarPdf"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faEdit, faFilePdf, faPlus } from '@fortawesome/free-solid-svg-icons';
-import  ToastAlert  from '../../componentes/toast/toastAlert';
+import { faCircleArrowRight,faCircleArrowLeft,faArrowLeft, faEdit, faFilePdf, faPlus } from '@fortawesome/free-solid-svg-icons';
+import ToastAlert from '../../componentes/toast/toastAlert';
 
 
 
@@ -16,6 +16,24 @@ export default function Estoque() {
   const [estoque, setEstoque] = useState([]);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("");
+  const [paginaAtual, setPaginaAtual] = useState(1);
+
+
+  const itensPorPagina = 20;
+  const indiceInicial = (paginaAtual - 1) * itensPorPagina;
+  const indiceFinal = indiceInicial + itensPorPagina;
+  const produtosPaginados = estoque.slice(indiceInicial, indiceFinal);
+  const totalPaginas = Math.ceil(estoque.length / itensPorPagina);
+
+  const proximaPagina = () => {
+    if (paginaAtual < totalPaginas) setPaginaAtual(paginaAtual + 1);
+  };
+
+  const paginaAnterior = () => {
+    if (paginaAtual > 1) setPaginaAtual(paginaAtual - 1);
+  };
+
+
 
 
   // Função para buscar o estoque
@@ -26,14 +44,14 @@ export default function Estoque() {
   };
   console.log(estoque)
 
- 
+
 
   useEffect(() => {
 
     fetchEstoque();
   }, []);
 
-  
+
   const handleVoltar = () => {
     router.back(); // Volta para a página anterior
   };
@@ -44,24 +62,24 @@ export default function Estoque() {
         <h1>Estoque Geral</h1>
 
       </div>
-      {toastType === "success" &&   <ToastAlert message={toastMessage} />}
+      {toastType === "success" && <ToastAlert message={toastMessage} />}
       <div className={styles.barra_pages} >
 
         <Link href="/produtos/cadastrar/cadastro-produto">
           <button className={styles.buttons} >
-            <FontAwesomeIcon icon={faPlus} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
+            <FontAwesomeIcon icon={faPlus} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }} />
             Cadastrar Novo Produto
           </button>
         </Link>
         <div>
-        <button id="gerarPdf" className={styles.buttons} onClick={()=> gerarPdf(estoque, setToastMessage, setToastType)}>
-       <FontAwesomeIcon icon={faFilePdf} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
-       Exportar
-     </button>
-      
+          <button id="gerarPdf" className={styles.buttons} onClick={() => gerarPdf(estoque, setToastMessage, setToastType)}>
+            <FontAwesomeIcon icon={faFilePdf} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }} />
+            Exportar
+          </button>
+
 
           <button className={styles.buttons} onClick={handleVoltar} style={{ justifySelf: 'flex-end' }} >
-            <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }}/>
+            <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '20px', color: '#f7f7ff', marginRight: "5px" }} />
             Voltar
           </button>
 
@@ -87,7 +105,7 @@ export default function Estoque() {
         </thead>
         <tbody>
           {estoque.length > 0 ? (
-            estoque.map((produto) => (
+            produtosPaginados.map((produto) => (
               <tr className={!produto.ativo ? styles.linhaInativa : ''} key={produto.codigo}>
                 <td className={styles.celula} >{produto.codigo}</td>
                 <td className={styles.celula} >{produto.nome}</td >
@@ -98,7 +116,7 @@ export default function Estoque() {
                   <Link href={`/produtos/editar/${produto.codigo}`}>
                     <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
 
-                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: '20px', color: '#545e75' }}/>
+                      <FontAwesomeIcon icon={faEdit} style={{ fontSize: '20px', color: '#545e75' }} />
                     </button>
                   </Link>
 
@@ -115,6 +133,21 @@ export default function Estoque() {
           )}
         </tbody>
       </table>
+      <div className={styles.titulo} style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', padding:'7px'  }}>
+  <button onClick={paginaAnterior} disabled={paginaAtual === 1} className={styles.botaoPaginacao}>
+  <FontAwesomeIcon icon={faCircleArrowLeft} style={{ fontSize: '20px',  marginRight: "5px" }} />
+    Anterior
+  </button>
+  <span style={{ margin: '0 10px' }}>
+    Página {paginaAtual} de {totalPaginas}
+  </span>
+  <button onClick={proximaPagina} disabled={paginaAtual === totalPaginas} className={styles.botaoPaginacao} >
+  <FontAwesomeIcon icon={faCircleArrowRight} style={{ fontSize: '20px',  marginRight: "5px" }} />
+    Próxima
+  </button>
+</div>
+
+
 
       <style jsx>{`
         @media print {

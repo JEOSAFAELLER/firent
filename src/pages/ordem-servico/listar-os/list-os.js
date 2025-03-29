@@ -4,13 +4,29 @@ import Link from 'next/link';
 import styles from '../../global.module.css'
 import gerarPdf from '../../componentes/gerarPdf';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faEdit, faFilePdf, faPlus, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowRight,faCircleArrowLeft,faArrowLeft, faEdit, faFilePdf, faPlus, faPrint } from '@fortawesome/free-solid-svg-icons';
 import  ToastAlert from '../../componentes/toast/toastAlert';
 const Ordens = () => {
   const [ordens, setOrdens] = useState([]);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("");
+  const [paginaAtual, setPaginaAtual] = useState(1);
   const router = useRouter();
+
+  const itensPorPagina = 20;
+  const indiceInicial = (paginaAtual - 1) * itensPorPagina;
+  const indiceFinal = indiceInicial + itensPorPagina;
+  const produtosPaginados = ordens.slice(indiceInicial, indiceFinal);
+  const totalPaginas = Math.ceil(ordens.length / itensPorPagina);
+
+  const proximaPagina = () => {
+    if (paginaAtual < totalPaginas) setPaginaAtual(paginaAtual + 1);
+  };
+
+  const paginaAnterior = () => {
+    if (paginaAtual > 1) setPaginaAtual(paginaAtual - 1);
+  };
+
 
   // Função para buscar as ordens de serviço da API
   const fetchOrdens = async () => {
@@ -102,7 +118,7 @@ const Ordens = () => {
           </tr>
         </thead>
         <tbody>
-          {ordens.map((ordem) => (
+          {produtosPaginados.map((ordem) => (
             <tr className={!ordem.ativo ? styles.linhaInativa : ''} key={ordem.os}>
               <td className={styles.celula}>{ordem.os}</td>
               <td className={styles.celula}>{ordem.cliente}</td>
@@ -125,6 +141,22 @@ const Ordens = () => {
           ))}
         </tbody>
       </table>
+
+      <div className={styles.titulo} style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', padding:'7px'  }}>
+  <button onClick={paginaAnterior} disabled={paginaAtual === 1} className={styles.botaoPaginacao}>
+  <FontAwesomeIcon icon={faCircleArrowLeft} style={{ fontSize: '20px',  marginRight: "5px" }} />
+    Anterior
+  </button>
+  <span style={{ margin: '0 10px' }}>
+    Página {paginaAtual} de {totalPaginas}
+  </span>
+  <button onClick={proximaPagina} disabled={paginaAtual === totalPaginas} className={styles.botaoPaginacao} >
+  <FontAwesomeIcon icon={faCircleArrowRight} style={{ fontSize: '20px',  marginRight: "5px" }} />
+    Próxima
+  </button>
+</div>
+
+
       <style jsx>{`
         @media print {
           /* Oculta o botão de imprimir na impressão */
