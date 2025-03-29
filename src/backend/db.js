@@ -123,10 +123,10 @@ export const atualizarOrdem = async (id, cliente, telefone, produtos, valor, ati
         return prisma.estoque.update({
           where: { codigo: produto.produtoId },
           data: {
-            quantidade: {
-              decrement: produto.quantidade
-            }
-          }
+            quantidade: ativo
+             ? { decrement: produto.quantidade }
+             :{ increment:produto.quantidade},
+          },
         });
       })
     ]);
